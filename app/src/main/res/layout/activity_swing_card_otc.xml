@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include layout="@layout/header_layout" />
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="!PASEMOS LA TARJETA¡"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Inserta, desliza o acerca"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <ImageView
+            android:src="@drawable/ic_card_insert"
+            android:layout_marginTop="50dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"/>
+
+    </LinearLayout>
+
+
+
+    <!-- ======================================================默认读卡界面==================================================== -->
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/searchcard_defult_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_header" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <!-- 显示金额 -->
+
+            <LinearLayout
+                android:id="@+id/trans_amount_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginTop="18dp"
+                android:gravity="bottom"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="@string/trans_amount"
+                    android:textColor="@color/common_text_color"
+                    android:textSize="@dimen/font_size_normal_small" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="bottom"
+                    android:text="￥"
+                    android:textColor="@color/trans_amount_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:text="@string/amount_default"
+                    android:textColor="@color/trans_amount_color"
+                    android:textSize="@dimen/font_size_larger" />
+            </LinearLayout>
+
+            <!-- 显示金额及其他信息 -->
+
+            <LinearLayout
+                android:id="@+id/trans_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="@string/trans_amount"
+                        android:textColor="@color/prompt_no_pwd_color"
+                        android:textSize="@dimen/font_size_normal_small" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="bottom"
+                        android:text="￥"
+                        android:textColor="@color/trans_amount_color"
+                        android:textSize="@dimen/font_size_small" />
+
+                    <TextView
+                        android:id="@+id/amount_txt_extra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="@string/amount_default"
+                        android:textColor="@color/trans_amount_color"
+                        android:textSize="@dimen/font_size_larger" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white"
+                    android:src="@drawable/line4" >
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:text="@string/detail_auth_code"
+                            android:textColor="@color/prompt_no_pwd_color"
+                            android:textSize="@dimen/font_size_small" />
+
+                        <TextView
+                            android:id="@+id/code_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="35dp"
+                            android:gravity="bottom"
+                            android:textSize="@dimen/font_size_small" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/date_txt_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="25dp"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:gravity="top"
+                            android:text="@string/trans_oridate"
+                            android:textColor="@color/prompt_no_pwd_color"
+                            android:textSize="@dimen/font_size_small" />
+
+                        <TextView
+                            android:id="@+id/date_txt"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom"
+                            android:layout_marginRight="25dp"
+                            android:gravity="end"
+                            android:textSize="@dimen/font_size_small" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- EditText 账号 -->
+
+            <LinearLayout
+                android:id="@+id/edit_cardno"
+                android:layout_width="match_parent"
+                android:layout_height="116dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/edit_cardno_frame"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <TextView
+                    android:id="@+id/tv_prompt_readcard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="17dp"
+                    android:text="@string/prompt_use_bankcard"
+                    android:textSize="@dimen/font_size_normal"
+                    android:textColor="@color/common_text_color"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"
+                    android:src="@drawable/line4" >
+                </ImageView>
+
+                <com.pax.tradepaypw.view.CustomEditText
+                    android:id="@+id/bank_card_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_large"
+                    android:focusable="false">
+                </com.pax.tradepaypw.view.CustomEditText>
+            </LinearLayout>
+
+            <!-- EditText 日期 -->
+
+            <LinearLayout
+                android:id="@+id/edit_date"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/edit_cardno_frame"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/prompt_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/prompt_card_num"
+                        android:textColor="@color/textview_infos"
+                        android:textSize="@dimen/font_size_normal" />
+
+                    <TextView
+                        android:id="@+id/tv_cardno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="18dp"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:src="@drawable/line4" >
+                </ImageView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="1dp"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/prompt_extranum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/prompt_card_date"
+                        android:textColor="@color/textview_infos"
+                        android:textSize="@dimen/font_size_normal" />
+
+                    <com.pax.tradepaypw.view.CustomEditText
+                        android:id="@+id/prompt_edit_extranum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="18dp"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:hint="@string/prompt_date_default"
+                        android:inputType="numberDecimal"
+                        android:textSize="22sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical" >
+
+            <!-- 确定按键 -->
+
+            <Button
+                android:id="@+id/ok_btn"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="76dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/gray_button_background"
+                android:text="@string/dialog_ok"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/font_size_normal"
+                android:enabled="false" />
+
+            <!-- 刷卡、插卡、挥卡 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <!--<ImageView-->
+                <!--android:id="@+id/iv_swipe"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:src="@drawable/no_swipe_card" />-->
+
+                <ImageView
+                    android:id="@+id/iv_insert"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/no_insert_card" />
+
+                <ImageView
+                    android:id="@+id/iv_untouch"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/untouch"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--<FrameLayout-->
+        <!--android:id="@+id/fl_trans_softkeyboard"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/keyboard_background_color"-->
+        <!--android:visibility="gone" >-->
+
+        <!--<com.pax.tradepaypw.view.SoftKeyboardSimpleStyle-->
+        <!--android:id="@+id/infos_softkeyboard"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="219dp"-->
+        <!--android:background="@color/keyboard_background_color"-->
+        <!--android:visibility="visible" />-->
+        <!--</FrameLayout>-->
+    </RelativeLayout>
+
+    <!-- ===================================================现金支付界面===================================================== -->
+
+    <RelativeLayout
+        android:id="@+id/searchcard_ec_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_header"
+        android:visibility="gone" >
+
+        <!-- 显示金额 -->
+
+        <RelativeLayout
+            android:id="@+id/searchcard_ec_layout_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="18dp"
+            android:gravity="bottom"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/searchcard_layout"
+                android:layout_marginBottom="2dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="@string/trans_amount"
+                    android:textColor="@color/prompt_no_pwd_color"
+                    android:textSize="@dimen/font_size_normal_small" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/searchcard_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/amount_txt_ec"
+                    android:text="￥"
+                    android:textColor="@color/trans_amount_color"
+                    android:textSize="@dimen/font_size_small" />
+
+                <TextView
+                    android:id="@+id/amount_txt_ec"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount_default"
+                    android:textColor="@color/trans_amount_color"
+                    android:textSize="@dimen/font_size_larger" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="65dp"
+            android:background="@color/key_normal_color"
+            android:orientation="vertical" >
+
+            <!-- 寻卡提示 -->
+
+            <TextView
+                android:id="@+id/tv_prompt_readcard_ec"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="65dp"
+                android:gravity="center"
+                android:textSize="@dimen/font_size_normal" />
+
+            <!-- 插卡、挥卡 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/iv_untouch_ec"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/untouch" />
+
+                <ImageView
+                    android:id="@+id/iv_insert_ec"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/insert_card" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

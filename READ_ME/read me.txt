@@ -1,0 +1,23 @@
+
+The Demo have EMVI library and EMVII library at the same time , and it use EMVI library by default. If you have only EMVII 
+library or just want use EMVII library , you can read the following method. 
+
+
+
+/******How to use EMVII library replace EMVI library in a same project ? ******/
+
+1. make sure you have EMVII library, it includes libEMV_II_Vxx.xx.xx_yymmdd.jar and libJniEMV_II_Vx.xx.xx_yymmdd.so .
+
+2. load the EMVII library into your project. In my demo, the libEMV_II_Vxx.xx.xx_yymmdd.jar will be load into my project by 
+automatic(you can load it in app\buil.gradle file by hand), and enable the libJniEMV_II_Vx.xx.xx_yymmdd.so by adding " System.loadLibrary("JniEMV_II_V1.00.00_20171129"); " into app\src\main\java\com\pax\app\TradeApplication.java file .
+
+3. If you have EMVI library in your project, to the safe , please delete it . It includes libEMV_Vx.xx.xx_yymmdd.jar in app\libs directory , libF_EMV_LIB_APIMAP_Android.so and libJniEMV_Vx.xx.xx_yymmdd.so in app\src\main\libs directory.
+
+4. replace the old "app\src\main\java\com\pax\tradepaypw\ImplEmv.java" with a new one . The new one is located in READ_ME\file of EMVII folder.
+
+5. add necessary import sentence in some .java files which maybe invoke EMVII APIs. (in my demo, like MainActivity.java and TradeResultActivity.java files need add.)
+
+
+
+
+
