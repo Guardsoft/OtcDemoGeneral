@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.pax.jemv.demo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.pax.permission.MAGCARD" />
+    <uses-permission android:name="com.pax.permission.PED" />
+    <uses-permission android:name="com.pax.permission.ICC" />
+    <uses-permission android:name="com.pax.permission.PICC" />
+    <uses-permission android:name="com.pax.permission.PRINTER" />
+
+    <application
+        android:name="com.pax.app.TradeApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_logo_bbva2"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.culqi.SendSmsResultActivity"></activity>
+        <activity
+            android:name="com.culqi.SendSmsActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/LightTheme" />
+        <activity android:name="com.otc.ui.KeyValidateActivity" />
+        <activity android:name="com.otc.ui.OrderActivity" />
+        <activity android:name="com.culqi.SalesDetailActivity" />
+        <activity android:name="com.culqi.SalesTodayActivity" />
+        <activity android:name="com.culqi.SwingCardCulqiActivity" />
+        <activity
+            android:name="com.culqi.SalesSummaryActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.culqi.SalesActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.culqi.HomeCulqiActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.culqi.MainCulqiActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name="com.otc.ui.SwingCardOtcActivity" />
+        <activity
+            android:name="com.otc.ui.MainOtcActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor" />
+        <activity android:name="com.otc.ui.ConsumeOtcActivity" />
+        <activity
+            android:name="com.otc.ui.DemoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.pax.tradepaypw.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.pax.tradepaypw.SplashActivity"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/ViewBigPicTheme" />
+        <activity
+            android:name="com.pax.tradepaypw.SwingCardActivity"
+            android:process="com.pax.detectCard"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.pax.tradepaypw.ConsumeActivity"
+            android:process="com.pax.detectCard"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.pax.tradepaypw.TradeResultActivity"
+            android:process="com.pax.detectCard"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/LightTheme" />
+        <activity android:name="com.pax.tradepaypw.ViewParamActivity" />
+        <activity android:name="com.pax.tradepaypw.VersionActivity" />
+        <activity
+            android:name="com.pax.tradepaypw.ReleaseNotesActivity"
+            android:label="@string/title_activity_release_notes"
+            android:theme="@style/AppTheme" />
+
+        <service
+            android:name="com.pax.tradepaypw.service.OtherDetectCard"
+            android:enabled="true"
+            android:exported="true" />
+    </application>
+
+</manifest>
