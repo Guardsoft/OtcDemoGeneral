@@ -121,7 +121,7 @@ public class TradeResultActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(TradeResultActivity.this, DemoActivity.class);
+                Intent intent = new Intent(TradeResultActivity.this, MainCulqiActivity.class);
                 intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
             }
@@ -746,7 +746,7 @@ public class TradeResultActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent intent = new Intent(this, DemoActivity.class);
+            Intent intent = new Intent(this, MainCulqiActivity.class);
             intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
@@ -1234,7 +1234,6 @@ public class TradeResultActivity extends AppCompatActivity {
             intent.putExtra(REQUEST_TENANT, TENANT);
             startActivity(intent);
         }
-
 
     }
 
