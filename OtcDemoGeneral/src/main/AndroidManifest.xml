@@ -13,7 +13,7 @@
     <application
         android:name="com.pax.app.TradeApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_bbva2"
+        android:icon="@drawable/ic_logo_culqi"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -45,12 +45,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity android:name="com.otc.ui.SwingCardOtcActivity" />
         <activity
@@ -62,11 +61,11 @@
             android:name="com.otc.ui.DemoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity
             android:name="com.pax.tradepaypw.MainActivity"

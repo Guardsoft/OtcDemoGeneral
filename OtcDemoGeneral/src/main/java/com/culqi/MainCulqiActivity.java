@@ -114,8 +114,13 @@ public class MainCulqiActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             TENANT = extras.getString(DemoActivity.REQUEST_TENANT);
+
+            if (TENANT == null) {
+                TENANT = "culqi";
+            }
+
         }else{
-            TENANT = "bbva";
+            TENANT = "culqi";
         }
 
         switch (TENANT){
