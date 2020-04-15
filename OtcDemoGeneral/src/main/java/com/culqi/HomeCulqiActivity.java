@@ -40,88 +40,48 @@ public class HomeCulqiActivity extends AppCompatActivity {
         initData();
 
         btnSales.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SalesActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            intent.putExtra(REQUEST_OPERATION, "sales");
-            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
-            startActivity(intent);
+            startActivity(SalesActivity.class , "sales");
         });
 
         btnQueries.setOnClickListener(v -> {
-            Intent intent = new Intent(this, SalesTodayActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            intent.putExtra(REQUEST_OPERATION, "report");
-            intent.putExtra(REQUEST_AMOUNT, "0.0");
-            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
-            startActivity(intent);
+            startActivity(SalesTodayActivity.class , "report");
         });
 
 
         btnCancellations.setOnClickListener(view -> {
-            Intent intent = new Intent(this, SwingCardActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            intent.putExtra(REQUEST_OPERATION, "search");
-            intent.putExtra(REQUEST_AMOUNT, "0.0");
-            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
-            startActivity(intent);
+            startActivity(SwingCardActivity.class , "search");
         });
     }
 
     private void initData() {
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             initializeResponse = extras.getParcelable(REQUEST_INITIALIZE);
             TENANT = extras.getString(MainCulqiActivity.REQUEST_TENANT);
             Log.i(TAG, "initData: " + initializeResponse.toString());
 
-
-            switch (TENANT){
-                case "culqi":
-                    layoutHome.setBackgroundResource(R.color.culqi_blue);
-                    btnSales.setImageResource(R.drawable.ic_sales);
-                    btnQueries.setImageResource(R.drawable.ic_queries);
-                    btnCancellations.setImageResource(R.drawable.ic_cancellations);
-                    break;
-
-                case "izipay":
-
-                    layoutHome.setBackgroundResource(R.color.izipay_pink1);
-                    btnSales.setImageResource(R.drawable.pop_pos);
-                    btnQueries.setImageResource(R.drawable.ic_card_report);
-                    btnCancellations.setImageResource(R.drawable.ic_card_cancel);
-                    break;
-
-                case "vendemas":
-
-                    layoutHome.setBackgroundResource(R.color.vendemas_yellow);
-                    btnSales.setImageResource(R.drawable.ic_vendemas_sales);
-                    btnQueries.setImageResource(R.drawable.ic_card_report);
-                    btnCancellations.setImageResource(R.drawable.ic_card_cancel);
-                    break;
-
-                case "bbva":
-
-                case "otc":
-
-                    layoutHome.setBackgroundResource(R.color.bbva_blue);
-                    btnSales.setImageResource(R.drawable.ic_bbva_sales);
-                    btnQueries.setImageResource(R.drawable.ic_card_report);
-                    btnCancellations.setImageResource(R.drawable.ic_card_cancel);
-                    break;
-
-                default:
-            }
+            layoutHome.setBackgroundResource(R.color.culqi_blue);
+            btnSales.setImageResource(R.drawable.ic_sales);
+            btnQueries.setImageResource(R.drawable.ic_queries);
+            btnCancellations.setImageResource(R.drawable.ic_cancellations);
         }
-
     }
 
     private void initView() {
-
         layoutHome = findViewById(R.id.layout_home);
         btnSales = findViewById(R.id.btn_sales);
         btnQueries = findViewById(R.id.btn_queries);
         btnCancellations = findViewById(R.id.btn_cancellations);
-
     }
+
+    private void startActivity(Class activity, String operation){
+        Intent intent = new Intent(this, activity);
+        intent.putExtra(REQUEST_TENANT, TENANT);
+        intent.putExtra(REQUEST_OPERATION, operation);
+        intent.putExtra(REQUEST_AMOUNT, "0.0");
+        intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
+        startActivity(intent);
+    }
+
 }
+

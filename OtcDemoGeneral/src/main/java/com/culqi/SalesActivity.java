@@ -10,13 +10,9 @@ import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.otc.model.response.InitializeResponse;
-import com.otc.ui.MainOtcActivity;
-import com.otc.ui.SwingCardOtcActivity;
 import com.pax.jemv.demo.R;
 import com.pax.jemv.device.DeviceManager;
 import com.pax.tradepaypw.DeviceImplNeptune;

@@ -24,6 +24,7 @@ import com.otc.model.request.send.Order;
 import com.otc.model.request.send.SendSmsRequest;
 import com.otc.model.request.send.Voucher;
 import com.otc.model.response.InitializeResponse;
+import com.otc.model.response.authorize.AuthorizeResponse;
 import com.otc.model.response.retrieve.TransactionsItem;
 import com.otc.model.response.send.SendSmsResponse;
 import com.pax.jemv.demo.R;
@@ -36,6 +37,8 @@ import butterknife.ButterKnife;
 import static com.culqi.MainCulqiActivity.REQUEST_INITIALIZE;
 import static com.culqi.MainCulqiActivity.REQUEST_TENANT;
 import static com.culqi.SalesDetailActivity.REQUEST_TRANSACTION;
+import static com.pax.tradepaypw.TradeResultActivity.REQUEST_AUTHORIZE;
+import static com.pax.tradepaypw.TradeResultActivity.REQUEST_PURCHASE_NUMBER;
 
 
 public class SendSmsActivity extends AppCompatActivity {
@@ -49,10 +52,12 @@ public class SendSmsActivity extends AppCompatActivity {
     @BindView(R.id.tv_aceptar)
     TextView tvAceptar;
 
-    TransactionsItem transactionsItem;
     InitializeResponse initializeResponse;
+    TransactionsItem transactionsItem;
+    AuthorizeResponse authorizeResponse;
     String authorization;
     String tenant;
+    String purchaseNumber;
 
 
     @Override
@@ -63,9 +68,11 @@ public class SendSmsActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            transactionsItem = extras.getParcelable(REQUEST_TRANSACTION);
             initializeResponse = extras.getParcelable(REQUEST_INITIALIZE);
             tenant = extras.getString(REQUEST_TENANT);
+            authorizeResponse = extras.getParcelable(REQUEST_AUTHORIZE);
+            transactionsItem = extras.getParcelable(REQUEST_TRANSACTION);
+            purchaseNumber = extras.getString(REQUEST_PURCHASE_NUMBER);
         }
 
         SharedPreferences prefsPax = getSharedPreferences("pax", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
@@ -82,8 +89,8 @@ public class SendSmsActivity extends AppCompatActivity {
 
         String number = etNumberPhone.getText().toString().trim();
 
-        if (number.equals("")) {
-            etNumberPhone.setError("Ingresa tú número");
+        if (number.equals("") || number.length()!= 9) {
+            etNumberPhone.setError("Ingresa un número válido");
             etNumberPhone.requestFocus();
             return;
         }
@@ -97,13 +104,22 @@ public class SendSmsActivity extends AppCompatActivity {
         Device device = new Device();
         device.setTerminalId(initializeResponse.getDevice().getTerminalId());
 
+        String purchaseNumber = "0";
+
+        if (transactionsItem != null) {
+            purchaseNumber =  transactionsItem.getPurchaseNumber();
+        }else{
+            purchaseNumber = this.purchaseNumber;
+        }
+
+
         Order order = new Order();
         order.setChannel("mpos");
-        order.setPurchaseNumber(transactionsItem.getPurchaseNumber());
+        order.setPurchaseNumber(purchaseNumber);
 
         Voucher voucher = new Voucher();
         voucher.setDocumentId("");
-        voucher.setPhone(number);
+        voucher.setPhone("51" + number);
         voucher.setEmail("");
         voucher.setSignature("");
 

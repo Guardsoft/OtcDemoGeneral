@@ -79,8 +79,6 @@ public class ConsumeActivity extends AppCompatActivity {
             TENANT = intent.getExtras().getString(MainCulqiActivity.REQUEST_TENANT);
         }
 
-        Log.i(TAG, "onCreate: purchase " + purchaseNumber);
-
         isOnlinePin = intent.getIntExtra("isOnlinePin", 1);
         //Log.i("ConsumeActivity", "isOnlinePin = " + isOnlinePin );
         offlinePinLeftTimes = intent.getIntExtra("offlinePinLeftTimes", 0);
@@ -107,6 +105,7 @@ public class ConsumeActivity extends AppCompatActivity {
 
         //   1 = CON PIN
         //   0 = SIN PIN
+        Log.i(TAG, "onCreate: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         Log.i(TAG, "onCreate isOnlinePin: " + isOnlinePin);
 
         if (isOnlinePin == 1)

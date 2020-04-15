@@ -22,6 +22,7 @@ import com.pax.tradepaypw.device.Device;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class UtilOtc extends Application {
 
@@ -190,8 +191,13 @@ public class UtilOtc extends Application {
     }
 
     public static String formatAmount(double amount){
-        NumberFormat formatter = new DecimalFormat("#0.00");
-        return formatter.format(amount);
+
+        NumberFormat nf = NumberFormat.getNumberInstance(Locale.UK);
+        nf.setMinimumFractionDigits(2);
+        nf.setMaximumFractionDigits(2);
+        nf.setGroupingUsed(true);
+
+        return nf.format(amount);
     }
 
     public static void injectKeys() {

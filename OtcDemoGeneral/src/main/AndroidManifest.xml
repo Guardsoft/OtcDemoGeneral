@@ -18,7 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.culqi.SendSmsResultActivity"></activity>
+        <activity android:name="com.culqi.adapter.SalesVoucherActivity"></activity>
+        <activity android:name="com.culqi.SendSmsResultActivity" />
         <activity
             android:name="com.culqi.SendSmsActivity"
             android:launchMode="singleTask"
@@ -27,7 +28,6 @@
         <activity android:name="com.otc.ui.OrderActivity" />
         <activity android:name="com.culqi.SalesDetailActivity" />
         <activity android:name="com.culqi.SalesTodayActivity" />
-        <activity android:name="com.culqi.SwingCardCulqiActivity" />
         <activity
             android:name="com.culqi.SalesSummaryActivity"
             android:launchMode="singleTask"
@@ -44,28 +44,27 @@
             android:name="com.culqi.MainCulqiActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-
-                 <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name="com.otc.ui.SwingCardOtcActivity" />
         <activity
             android:name="com.otc.ui.MainOtcActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
-        <activity android:name="com.otc.ui.ConsumeOtcActivity" />
         <activity
             android:name="com.otc.ui.DemoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name="com.pax.tradepaypw.MainActivity"

@@ -23,6 +23,8 @@ import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.culqi.MainCulqiActivity;
+import com.culqi.SendSmsActivity;
+import com.culqi.adapter.SalesVoucherActivity;
 import com.google.gson.Gson;
 import com.otc.manager.PrinterManager;
 import com.otc.model.request.authorize.AuthorizeRequest;
@@ -37,9 +39,6 @@ import com.otc.model.response.InitializeResponse;
 import com.otc.model.response.authorize.AuthorizeResponse;
 import com.otc.model.response.retrieve.TransactionsItem;
 import com.otc.ui.DemoActivity;
-import com.otc.ui.MainOtcActivity;
-import com.otc.ui.OrderActivity;
-import com.otc.ui.SwingCardOtcActivity;
 import com.otc.ui.util.UtilOtc;
 import com.pax.app.TradeApplication;
 import com.pax.dal.entity.EReaderType;
@@ -66,16 +65,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import okhttp3.internal.Util;
-
 import static com.culqi.MainCulqiActivity.REQUEST_INITIALIZE;
 import static com.culqi.MainCulqiActivity.REQUEST_TENANT;
+import static com.culqi.SalesActivity.REQUEST_AMOUNT;
 import static com.culqi.SalesDetailActivity.REQUEST_OPERATION;
 import static com.culqi.SalesTodayActivity.REQUEST_TRANSACTION;
 import static com.pax.tradepaypw.utils.Utils.bcd2Str;
 
 public class TradeResultActivity extends AppCompatActivity {
     private static final String TAG = "TradeResultActivity";
+    public static final String REQUEST_AUTHORIZE = "authorize";
+    public static final String REQUEST_PURCHASE_NUMBER = "purchaseNumber";
     private TextView tvAmount;
     private TextView tvCardNum;
     private TextView tvDate;
@@ -104,7 +104,8 @@ public class TradeResultActivity extends AppCompatActivity {
     private LinearLayout layoutProgress;
     public InitializeResponse initializeResponse;
     public TransactionsItem transactionsItem;
-    private int purchaseNumber;
+    private AuthorizeResponse authorizeResponse;
+    private String amount;
     private ScrollView layoutTest;
     private String TENANT;
     private String OPERATION;
@@ -600,10 +601,13 @@ public class TradeResultActivity extends AppCompatActivity {
 
         }
 
+        amount = getIntent().getStringExtra("amount");
+        TRACK2 = getIntent().getStringExtra("track2");
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         tvDate.setText(dateFormat.format(new Date()));
         tvCardNum.setText(getIntent().getStringExtra("pan"));
-        tvAmount.setText(getIntent().getStringExtra("amount"));
+        tvAmount.setText(amount);
 
 
         if (getIntent().getStringExtra("pin") != null) {
@@ -611,8 +615,7 @@ public class TradeResultActivity extends AppCompatActivity {
         }
 
 
-        String amount = getIntent().getStringExtra("amount");
-        TRACK2 = getIntent().getStringExtra("track2");
+
 
 
         String pinBlockEncrypt = getIntent().getStringExtra("pinBlock");
@@ -678,32 +681,6 @@ public class TradeResultActivity extends AppCompatActivity {
         //******************************************************************************************
         TENANT = getIntent().getStringExtra(REQUEST_TENANT);
 
-        switch (TENANT){
-            case "culqi":
-                layout10.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
-                ivLoadingTip.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
-                ivLoadingTip.setImageResource(R.drawable.ic_logo_culqi);
-
-                break;
-
-            case "izipay":
-                layout10.setBackgroundColor(getResources().getColor(R.color.izipay_pink1));
-                ivLoadingTip.setBackgroundColor(getResources().getColor(R.color.izipay_pink1));
-                ivLoadingTip.setImageResource(R.drawable.logo_izipay_2);
-                break;
-
-            case "vendemas":
-                layout10.setBackgroundColor(getResources().getColor(R.color.vendemas_yellow));
-                ivLoadingTip.setBackgroundColor(getResources().getColor(R.color.vendemas_yellow));
-                ivLoadingTip.setImageResource(R.drawable.logo_vendemas);
-                break;
-
-
-            default:
-        }
-
-
-
     }
 
     private void initView() {
@@ -726,7 +703,6 @@ public class TradeResultActivity extends AppCompatActivity {
         layoutProgress = findViewById(R.id.layout_progress);
         tvCardNumber = findViewById(R.id.tv_card_number);
         tvAmountResult = findViewById(R.id.tv_amount);
-        ivLoadingTip = findViewById(R.id.iv_loading_tip);
         layout10 = findViewById(R.id.layout_10);
         tvResult = findViewById(R.id.tv_result);
     }
@@ -879,6 +855,9 @@ public class TradeResultActivity extends AppCompatActivity {
 
                         tvAmountResult.setText(String.format("S/ %s", UtilOtc.formatAmount(response.getOrder().getAmount())));
                         tvCardNumber.setText(UtilOtc.getCardNumber(track2));
+
+                        authorizeResponse = response;
+
 
                         PrinterManager manager = new PrinterManager();
                         manager.printDemo(TradeResultActivity.this, response, TENANT, track2);
@@ -1225,27 +1204,29 @@ public class TradeResultActivity extends AppCompatActivity {
     }
 
     public void backClick(View view) {
-
-        if (TENANT.equals("")) {
-            Intent intent = new Intent(this, OrderActivity.class);
-            startActivity(intent);
-        }else{
-            Intent intent = new Intent(this, MainCulqiActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            startActivity(intent);
-        }
-
+        backHome();
     }
 
     @Override
     public void onBackPressed() {
-        if (TENANT.equals("")) {
-            Intent intent = new Intent(this, OrderActivity.class);
-            startActivity(intent);
-        }else{
-            Intent intent = new Intent(this, MainCulqiActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            startActivity(intent);
-        }
+        backHome();
+    }
+
+    private void backHome(){
+        Intent intent = new Intent(this, MainCulqiActivity.class);
+        intent.putExtra(REQUEST_TENANT, TENANT);
+        startActivity(intent);
+    }
+
+    public void sendVoucherActivity(View view) {
+
+        Intent intent = new Intent(this, SalesVoucherActivity.class);
+        intent.putExtra(REQUEST_TENANT, "culqi");
+        intent.putExtra(REQUEST_AMOUNT, amount);
+        intent.putExtra(REQUEST_PURCHASE_NUMBER, authorizeResponse.getOrder().getPurchaseNumber());
+        intent.putExtra(REQUEST_AUTHORIZE, authorizeResponse);
+        intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
+        startActivity(intent);
+
     }
 }

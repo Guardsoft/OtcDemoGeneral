@@ -5,26 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    tools:context="com.culqi.SendSmsResultActivity">
-
-    <include layout="@layout/view_culqi_loading"/>
+    tools:context="com.culqi.adapter.SalesVoucherActivity">
 
     <RelativeLayout
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
             android:id="@+id/layout_10"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
-            android:background="@color/culqi_green"
+            android:background="@color/culqi_blue"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_result"
-                android:text="Enviado"
+                android:text="¿Enviamos un \nvoucher?"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -36,6 +35,7 @@
 
         <LinearLayout
             android:id="@+id/layout_20"
+            android:onClick="sendVoucher"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_10"
@@ -64,27 +64,55 @@
                 android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:text="Enviamos el voucher al número indicado"
-                    android:textSize="20sp"
+                <RadioGroup
+                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:weightSum="10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content">
+
+                    <RadioButton
+                        android:id="@+id/rb_voucher_true"
+                        android:checked="true"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:buttonTint="@color/culqi_blue"
+                        android:textSize="25dp"
+                        android:text="SI" />
+
+                    <RadioButton
+                        android:id="@+id/rb_voucher_false"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:buttonTint="@color/culqi_blue"
+                        android:textSize="25dp"
+                        android:text="NO" />
+
+                </RadioGroup>
+
 
                 <TextView
                     android:id="@+id/tv_aceptar"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:onClick="backHome"
                     android:layout_marginTop="50dp"
-                    android:text="Finalizar"
+                    android:text="Aceptar"
                     android:textColor="@color/culqi_blue"
                     android:textSize="18dp" />
 
             </LinearLayout>
 
+
+
+
+
+
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
+
+    <include layout="@layout/view_culqi_loading"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

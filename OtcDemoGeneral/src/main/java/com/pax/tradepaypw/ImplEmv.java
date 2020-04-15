@@ -53,6 +53,7 @@ public class ImplEmv {
 
     private EmvParam emvParam;
     private EmvMCKParam mckParam;
+    private boolean statePin = true;
 
     public ImplEmv(Context context) {
         emvParam = new EmvParam();
@@ -63,6 +64,16 @@ public class ImplEmv {
         emvContext = context;
     }
 
+    public ImplEmv(Context context, boolean statePin) {
+        emvParam = new EmvParam();
+        mckParam = new EmvMCKParam();
+        mckParam.extmParam = new EmvEXTMParam();
+        emvCallback = EMVCallback.getInstance();
+        emvCallback.setCallbackListener(emvCallbackListener);
+        emvContext = context;
+
+        this.statePin = statePin;
+    }
 
     private int addCapkIntoEmvLib() {
         int ret;
@@ -331,16 +342,33 @@ public class ImplEmv {
             int result = 0;
             int ret = 0;
 
-            if (pin != null && pin[0] != 0) {
-                ret = pin[0];
-                Log.i("log", "emvGetHolderPwd ret=" + ret);
+            if ( (pin != null && pin[0] != 0) || !statePin) {
+
+                Log.i(TAG, "emvGetHolderPwd: SIN PIN ******************************************");
+
+
+                if (!statePin) {
+                    ret = 1234;
+                    Log.i("log", "emvGetHolderPwd ret=" + ret);
+                }else{
+                    ret = pin[0];
+                    Log.i("log", "emvGetHolderPwd ret=" + ret);
+                }
+
+
             } else {
+
+                Log.i(TAG, "emvGetHolderPwd: CON PIN *****************************************");
+
                 enterPin(pin == null, remainCnt);
                 //enterPin(MainActivity.this, pin == null, remainCnt);
                 Log.i("log", "emvGetHolderPwd enterPin finish");
                 ret = GetPinEmv.getInstance().GetPinResult();
                 Log.i("log", "GetPinEmv GetPinResult = " + ret);
             }
+
+
+
             if (ret == EEmvExceptions.EMV_OK.getErrCodeFromBasement()) {
                 result = RetCode.EMV_OK;
                 Log.i("log", "GetPinEmv result = EMV_OK");
@@ -376,9 +404,6 @@ public class ImplEmv {
             Log.i(TAG, "emvVerifyPINfailed ret = " + var1);
             return 0;
         }
-
-        ;
-
 
         @Override
         public int emvUnknowTLVData(short tag, ByteArray data) {

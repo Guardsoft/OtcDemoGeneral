@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.otc.ui.SwingCardOtcActivity;
 import com.pax.jemv.demo.R;
 import com.pax.tradepaypw.SwingCardActivity;
 

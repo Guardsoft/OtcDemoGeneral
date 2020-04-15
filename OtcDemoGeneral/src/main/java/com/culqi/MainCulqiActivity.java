@@ -101,7 +101,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         long time = timestamp.getTime()/1000;
 
-
         AndroidNetworking.initialize(getApplicationContext());
         prefsPax = getSharedPreferences("pax", Context.MODE_PRIVATE| Context.MODE_MULTI_PROCESS);
         purchaseNumber = prefsPax.getLong("purchase_number", time);
@@ -111,81 +110,9 @@ public class MainCulqiActivity extends AppCompatActivity {
         editor.putLong("purchase_number", purchaseNumber);
         editor.apply();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            TENANT = extras.getString(DemoActivity.REQUEST_TENANT);
 
-            if (TENANT == null) {
-                TENANT = "culqi";
-            }
-
-        }else{
-            TENANT = "culqi";
-        }
-
-        switch (TENANT){
-            case "culqi":
-
-                //loading***********************************************************************
-                layoutProgress.setBackgroundResource(R.color.culqi_blue);
-                ivLogoLoading.setImageResource(R.drawable.ic_logo_culqi);
-                //******************************************************************************
-
-                ivLogo.setImageResource(R.drawable.ic_logo_culqi);
-                layoutInitial.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
-                break;
-
-            case "izipay":
-
-                //loading***********************************************************************
-                layoutProgress.setBackgroundResource(R.color.izipay_pink1);
-                ivLogoLoading.setImageResource(R.drawable.logo_izipay_2);
-                //******************************************************************************
-
-                ivLogo.setImageResource(R.drawable.logo_izipay_2);
-                tvStart.setText("AQUÍ \naceptamos \nTODAS \nlas tarjetas");
-                layoutInitial.setBackgroundColor(getResources().getColor(R.color.izipay_pink1));
-                break;
-
-            case "vendemas":
-
-                //loading***********************************************************************
-                layoutProgress.setBackgroundResource(R.color.vendemas_yellow);
-                ivLogoLoading.setImageResource(R.drawable.ic_logo_niubiz_vendemas);
-                //******************************************************************************
-
-                ivLogo.setVisibility(View.GONE);
-                ivLogo2.setVisibility(View.VISIBLE);
-                tvStart.setTextColor(getResources().getColor(R.color.culqi_blue));
-                tvStart.setText("Comienza a vender +");
-                layoutInitial.setBackgroundColor(getResources().getColor(R.color.vendemas_yellow));
-                break;
-
-            case "bbva":
-
-                //loading***********************************************************************
-                layoutProgress.setBackgroundResource(R.color.bbva_blue);
-                ivLogoLoading.setImageResource(R.drawable.ic_logo_bbva2);
-                //******************************************************************************
-
-                ivLogo.setImageResource(R.drawable.ic_logo_bbva2);
-                layoutInitial.setBackgroundColor(getResources().getColor(R.color.bbva_blue));
-                break;
-
-            case "otc":
-
-                //loading***********************************************************************
-                layoutProgress.setBackgroundResource(R.color.white);
-                ivLogoLoading.setImageResource(R.drawable.ic_logo_otc);
-                //******************************************************************************
-
-                ivLogo.setImageResource(R.drawable.ic_logo_otc);
-                layoutInitial.setBackgroundColor(getResources().getColor(R.color.white));
-                tvStart.setTextColor(getResources().getColor(R.color.culqi_blue));
-                break;
-
-            default:
-        }
+        ivLogo.setImageResource(R.drawable.ic_logo_culqi);
+        layoutInitial.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
 
     }
 

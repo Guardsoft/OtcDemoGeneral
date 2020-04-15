@@ -79,29 +79,7 @@ public final class PrinterManager {
 
     public void printDemo(Context context, AuthorizeResponse authorizeResponse, String TENANT, String track2) {
 
-        final Bitmap logo ;
-
-        switch (TENANT){
-            case "culqi":
-                logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_culqi_black);
-                break;
-
-            case "izipay":
-                logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.izipay3);
-                break;
-
-            case "vendemas":
-                logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_vendemas);
-                break;
-
-            case "bbva":
-                logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_bbva_print);
-                break;
-
-            default:
-                logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_restaurant);
-                break;
-        }
+        final Bitmap logo = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo_culqi_black);
 
         final Bitmap  logo1 = BitmapUtils.getWhiteBgBitmapScaleTo(logo, 500);
 

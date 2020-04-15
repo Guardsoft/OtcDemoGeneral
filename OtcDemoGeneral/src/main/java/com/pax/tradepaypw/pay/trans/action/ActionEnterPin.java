@@ -16,12 +16,15 @@ package com.pax.tradepaypw.pay.trans.action;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
-import com.otc.ui.ConsumeOtcActivity;
 import com.pax.tradepaypw.ConsumeActivity;
 import com.pax.tradepaypw.abl.core.AAction;
 
 public class ActionEnterPin extends AAction {
+
+    private static final String TAG = "ActionEnterPin";
+    
     private Context context;
     private String title;
     private String pan;
@@ -83,6 +86,9 @@ public class ActionEnterPin extends AAction {
 
     @Override
     protected void process() {
+
+        Log.i(TAG, "process: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        
         Intent intent = new Intent(context, ConsumeActivity.class);
         //intent.putExtra(EUIParamKeys.NAV_TITLE.toString(), title);
         //intent.putExtra(EUIParamKeys.PROMPT_1.toString(), header);

@@ -111,7 +111,6 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
     Intent iDetectCard;
 
-
     String pan;
     String trackData2_38;
     String trackData1;
@@ -159,6 +158,8 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         return statusFlg;
     }
 
+    CustomAlertDialog panDialog = null;
+
     @SuppressLint("HandlerLeak")
     protected Handler handler = new Handler() {
         @Override
@@ -184,6 +185,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     };
 
     private void starMagTrans() {
+
+        Log.i(TAG, "starMagTrans: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         pan = TrackUtils.getPan(trackData2);
         trackData2_38 = UtilOtc.getTrack2(trackData2);
         magRet = 0;
@@ -229,9 +233,10 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    CustomAlertDialog panDialog = null;
-
     private void showPan() {
+
+        Log.i(TAG, "showPan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         while (true) {
             if ((magRet == 0) && (panDialog == null)) {
                 runOnUiThread(new Runnable() {
@@ -274,9 +279,15 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
     private void startEmvTrans() {
 
-        Log.i(TAG, "startEmvTrans: CHIP *******************");
-        
-        emv = new ImplEmv(SwingCardActivity.this);
+        Log.i(TAG, "startEmvTrans: ******************************************************");
+
+
+        if (OPERATION.equals("search")){
+            emv = new ImplEmv(SwingCardActivity.this, false);
+        }else{
+            emv = new ImplEmv(SwingCardActivity.this);
+        }
+
         emv.ulAmntAuth = Long.parseLong(amount.replace(".", ""));
         emv.amount = amount;
         Log.i(TAG, "transParam.ulAmntAuth:" + emv.ulAmntAuth);
@@ -289,10 +300,17 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         int ret = emv.startContactEmvTrans();
         Log.i(TAG, "startContactEmvTrans ret= " + ret);
 
+
+
         if (ret == TransResult.EMV_ARQC) {
+
+            Log.i(TAG, "startEmvTrans: ******************************************************");
+            
             toOnlineProc();
             ret = emv.CompleteContactEmvTrans();
         }
+
+
         if (ret == TransResult.EMV_ONLINE_APPROVED || ret == TransResult.EMV_OFFLINE_APPROVED || ret == TransResult.EMV_ONLINE_CARD_DENIED) {
 
             byte[] track2 = ImplEmv.getTlv(0x57);
@@ -390,6 +408,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void toOnlineProc() {
+
+        Log.i(TAG, "toOnlineProc: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         while (true) {
             if (promptDialog == null) {
                 Log.i(TAG, "toOnlineProc promptDialog == null");
@@ -415,7 +436,8 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
     private void starPiccTrans() {
 
-        Log.i(TAG, "starPiccTrans: ready piccTrans");
+        Log.i(TAG, "starPiccTrans: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         while (true) {
             setStatusFlg(false);
             serReadType.setrReadType(EReaderType.DEFAULT.getEReaderType());
@@ -498,6 +520,8 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     //Gillian end 20170522
     private void showErr(final int ret) {
 
+        Log.i(TAG, "showErr: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         if (getReadType() != null) {
             SystemClock.sleep(300);
             Log.i(TAG, "getReadType=" + getReadType().getEReaderType());
@@ -549,6 +573,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startVIS() {
+
+        Log.i(TAG, "startVIS: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         Clss_PreProcInfo procInfo = null;
         TransResult transResult = new TransResult();
         ClssPayWave.getInstance().setCallback(new TradeCallback(this));
@@ -583,6 +610,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
     
     private int startMC() {
+
+        Log.i(TAG, "startMC: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         Clss_PreProcInfo procInfo = null;
         Clss_MCAidParam aidParam = null;
         TransResult transResult = new TransResult();
@@ -614,6 +644,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startConlssPBOC(TransResult transResult) {
+
+        Log.i(TAG, "startConlssPBOC: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         emv = new ImplEmv(SwingCardActivity.this);
         emv.ulAmntAuth = entryPoint.getTransParam().ulAmntAuth;
         emv.amount = amount;
@@ -628,6 +661,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startqpboc() {
+
+        Log.i(TAG, "startqpboc: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         String ssAID;
         String listAID;
         int cvmType;
@@ -670,6 +706,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startAE() {
+
+        Log.i(TAG, "startAE: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         int ret;
         String ssAID;
         String listAID;
@@ -704,6 +743,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startDPAS() {
+
+        Log.i(TAG, "startDPAS: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         // Clss_PreProcInfo procInfo = null;
         TransResult transResult = new TransResult();
         ClssDPAS.getInstance().setCallback(new TradeCallback(this));
@@ -727,6 +769,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startJCB() {
+
+        Log.i(TAG, "startJCB: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         Clss_PreProcInfo procInfo = null;
         Clss_JcbAidParam aidParam = null;
         TransResult transResult = new TransResult();
@@ -761,6 +806,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private int startPure() {
+
+        Log.i(TAG, "startPure: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         Clss_PreProcInfo procInfo = null;
         Clss_PureAidParam aidParam = null;
         TransResult transResult = new TransResult();
@@ -797,6 +845,9 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
 
     private void successProcess(int cvmType, int result) {
+
+        Log.i(TAG, "successProcess: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         ByteArray tk2 = new ByteArray();
         if (ClssEntryPoint.getInstance().getOutParam().ucKernType == KernType.KERNTYPE_MC) {
             Log.i(TAG, "successProcess: 1000");
@@ -866,44 +917,34 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
 
         //**********************
-
-
-        Log.i(TAG, "successProcess trackData2_38 : " + trackData2_38);
-
         Log.i(TAG, "cvmType = " + cvmType);
 
-        if (OPERATION.equals("search")) {
-
-            toTradeResultActivity();
-
-        }else{
-
-            if (cvmType == CvmType.RD_CVM_ONLINE_PIN) {
-                toConsumeActitivy(result, cvmType);
-            } else if (cvmType == (CvmType.RD_CVM_ONLINE_PIN + CvmType.RD_CVM_SIG)) {
-                toConsumeActitivy(result, cvmType);
-            } else if (cvmType == CvmType.RD_CVM_NO) {
-                if (result == TransResult.EMV_ARQC) {
-                    toTradeResultActivity();
-                } else if (result == TransResult.EMV_OFFLINE_APPROVED) {
-                    toTradeResultActivityTc();
-                }
-            } else {
-                if (result == TransResult.EMV_ARQC) {
-                    toTradeResultActivity();
-                } else if (result == TransResult.EMV_OFFLINE_APPROVED) {
-                    toTradeResultActivityTc();
-                }
+        if (cvmType == CvmType.RD_CVM_ONLINE_PIN) {
+            toConsumeActitivy(result, cvmType);
+        } else if (cvmType == (CvmType.RD_CVM_ONLINE_PIN + CvmType.RD_CVM_SIG)) {
+            toConsumeActitivy(result, cvmType);
+        } else if (cvmType == CvmType.RD_CVM_NO) {
+            if (result == TransResult.EMV_ARQC) {
+                toTradeResultActivity();
+            } else if (result == TransResult.EMV_OFFLINE_APPROVED) {
+                toTradeResultActivityTc();
             }
-
+        } else {
+            if (result == TransResult.EMV_ARQC) {
+                toTradeResultActivity();
+            } else if (result == TransResult.EMV_OFFLINE_APPROVED) {
+                toTradeResultActivityTc();
+            }
         }
-
 
 
 
     }
 
     private void toTradeResultActivity() {
+
+        Log.i(TAG, "toTradeResultActivity: +++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         while (true) {
             if (promptDialog == null) {
                 runOnUiThread(new Runnable() {
@@ -942,6 +983,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
             }
         } else if (ClssEntryPoint.getInstance().getOutParam().ucKernType == KernType.KERNTYPE_PBOC) {
             if (ClssQuickPass.getInstance().getTransPath() == TransactionPath.CLSS_VISA_VSDC) {   //Contact PBOC
+
                 emv.CompleteContactEmvTrans();
                 //TradeCallback.getInstance(SwingCardActivity.this).removeCardPrompt();
             }
@@ -981,10 +1023,12 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
         }
 
-
     }
 
     private void toTradeResultActivityTc() {
+
+        Log.i(TAG, "toTradeResultActivityTc: ++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         while (true) {
             if (promptDialog == null) {
                 runOnUiThread(new Runnable() {
@@ -1005,6 +1049,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
             }
             SystemClock.sleep(3000);
         }
+
         Log.i(TAG, "Start TradeResultActivity");
         Intent intent = new Intent(this, TradeResultActivity.class);
         intent.putExtra(REQUEST_TENANT, TENANT);
@@ -1020,6 +1065,8 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
     private void toConsumeActitivy(int result, int cvmtype) {
 
+        Log.i(TAG, "toConsumeActitivy: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
         Intent intent = new Intent(SwingCardActivity.this, ConsumeActivity.class);
         intent.putExtra(REQUEST_TENANT, TENANT);
         intent.putExtra("amount", amount);
@@ -1030,11 +1077,16 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         intent.putExtra("initialize", initializeResponse);
         intent.putExtra("purchase", purchaseNumber);
         startActivity(intent);
+
     }
 
     private BroadcastReceiver br = new BroadcastReceiver() {
+        
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            Log.i(TAG, "onReceive: +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            
             byte tmpType = intent.getByteExtra("TYPE", (byte) -1);
             Log.i(TAG, "BroadcastReceiver, readType=" + tmpType);
             serReadType.setrReadType(tmpType);
@@ -1053,8 +1105,6 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bankcad_pay);
 
-        Log.i(TAG, "onCreate: LEER TARJETA");
-
         initView();
 
         Intent intent = getIntent();
@@ -1065,6 +1115,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         transactionsItem = intent.getParcelableExtra(REQUEST_TRANSACTION);
         purchaseNumber = intent.getIntExtra("purchase", 0);
 
+        Log.i(TAG, "onCreate: LEER TARJETA");
         Log.i(TAG, "onCreate: " + OPERATION);
 
         tvAmount.setText(amount);
@@ -1094,37 +1145,15 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
         if (OPERATION.equals("search")) {
             tvTitle.setText("Consulta");
+        }else if(OPERATION.equals("cancel")){
+            tvTitle.setText("Anular");
         }
 
-        TENANT = (TENANT != null ? TENANT: "");
 
-        switch (TENANT){
-            case "culqi":
 
-                layoutReadCulqi.setVisibility(View.VISIBLE);
-                layoutReadIzipay.setVisibility(View.GONE);
-                layoutReadVendemas.setVisibility(View.GONE);
-
-                break;
-
-            case "izipay":
-
-                layoutReadCulqi.setVisibility(View.GONE);
-                layoutReadIzipay.setVisibility(View.VISIBLE);
-                layoutReadIzipay.setBackgroundColor(getResources().getColor(R.color.izipay_pink2));
-                layoutReadVendemas.setVisibility(View.GONE);
-                break;
-
-            case "vendemas":
-
-                layoutReadCulqi.setVisibility(View.GONE);
-                layoutReadIzipay.setVisibility(View.GONE);
-                layoutReadVendemas.setVisibility(View.VISIBLE);
-                layoutReadVendemas.setBackgroundColor(getResources().getColor(R.color.vendemas_yellow));
-                break;
-
-            default:
-        }
+        layoutReadCulqi.setVisibility(View.VISIBLE);
+        layoutReadIzipay.setVisibility(View.GONE);
+        layoutReadVendemas.setVisibility(View.GONE);
 
     }
 
@@ -1335,14 +1364,16 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.ok_btn:
                 //test
-                Intent intent = new Intent(SwingCardActivity.this, ConsumeActivity.class);
-                intent.putExtra(REQUEST_TENANT, TENANT);
-                intent.putExtra("amount", amount);
-                intent.putExtra("pan", pan);
-                intent.putExtra("pin", "10000");
-                intent.putExtra("initialize", initializeResponse);
-                intent.putExtra("purchase", purchaseNumber);
-                startActivity(intent);
+
+                Log.i(TAG, "onClick: test+++++++++++++++++++++++++++++++++++++++++++++++++++");
+//                Intent intent = new Intent(SwingCardActivity.this, ConsumeActivity.class);
+//                intent.putExtra(REQUEST_TENANT, TENANT);
+//                intent.putExtra("amount", amount);
+//                intent.putExtra("pan", pan);
+//                intent.putExtra("pin", "10000");
+//                intent.putExtra("initialize", initializeResponse);
+//                intent.putExtra("purchase", purchaseNumber);
+//                startActivity(intent);
                 break;
             default:
                 break;

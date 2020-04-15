@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <include layout="@layout/view2_culqi_loading"/>
+    <include layout="@layout/view_culqi_loading"/>
 
     <RelativeLayout
         android:id="@+id/layout_1"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
-            android:background="@color/colorPrimary"
+            android:background="@color/culqi_green"
             android:orientation="vertical">
 
             <TextView
@@ -32,7 +32,6 @@
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-
 
         </LinearLayout>
 
@@ -83,7 +82,7 @@
                     android:id="@+id/tv_start"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:onClick="backClick"
+                    android:onClick="sendVoucherActivity"
                     android:layout_marginTop="50dp"
                     android:text="Retira la tarjeta"
                     android:textColor="@color/culqi_blue"

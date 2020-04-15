@@ -25,7 +25,7 @@
         android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
-        <include layout="@layout/view2_culqi_loading"/>
+        <include layout="@layout/view_culqi_loading"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,3 +146,8 @@
 
 
 </RelativeLayout>
+
+
+
+
+

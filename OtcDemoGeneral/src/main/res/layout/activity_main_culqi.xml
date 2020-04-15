@@ -10,7 +10,7 @@
     <include layout="@layout/view_izipay_loading"/>
 
     <RelativeLayout
-        android:background="@color/vendemas_yellow"
+        android:background="@color/culqi_blue"
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -24,7 +24,7 @@
 
             <ImageView
                 android:id="@+id/iv_logo"
-                android:src="@drawable/logo_vendemas"
+                android:src="@drawable/ic_logo_culqi"
                 android:layout_marginTop="50dp"
                 android:layout_width="200dp"
                 android:layout_height="150dp"/>

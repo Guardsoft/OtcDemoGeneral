@@ -24,7 +24,7 @@
         android:layout_height="wrap_content">
 
 
-        <include layout="@layout/view2_culqi_loading"/>
+        <include layout="@layout/view_culqi_loading"/>
 
         <ListView
             android:id="@+id/lv_sales_today"

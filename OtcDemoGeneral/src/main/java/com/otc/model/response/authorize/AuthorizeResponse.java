@@ -1,8 +1,11 @@
 package com.otc.model.response.authorize;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class AuthorizeResponse {
+public class AuthorizeResponse implements Parcelable {
 
 	@SerializedName("customFields")
 	private CustomFields customFields;
@@ -18,6 +21,21 @@ public class AuthorizeResponse {
 
 	@SerializedName("order")
 	private Order order;
+
+	protected AuthorizeResponse(Parcel in) {
+	}
+
+	public static final Creator<AuthorizeResponse> CREATOR = new Creator<AuthorizeResponse>() {
+		@Override
+		public AuthorizeResponse createFromParcel(Parcel in) {
+			return new AuthorizeResponse(in);
+		}
+
+		@Override
+		public AuthorizeResponse[] newArray(int size) {
+			return new AuthorizeResponse[size];
+		}
+	};
 
 	public void setCustomFields(CustomFields customFields){
 		this.customFields = customFields;
@@ -70,4 +88,13 @@ public class AuthorizeResponse {
 			",order = '" + order + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+	}
 }
