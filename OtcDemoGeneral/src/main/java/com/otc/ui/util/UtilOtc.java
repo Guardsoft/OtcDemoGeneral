@@ -20,7 +20,6 @@ import com.pax.dal.exceptions.PedDevException;
 import com.pax.tradepaypw.device.Device;
 
 import java.lang.reflect.Method;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -51,17 +50,14 @@ public class UtilOtc extends Application {
     }
 
     public void dialogResult(Context context, String msg){
+
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle("MENSAJE")
                 .setMessage(msg)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton(android.R.string.yes, (dialog1, which) -> dialog1.dismiss())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show();
+
         TextView textView = dialog.findViewById(android.R.id.message);
         textView.setScroller(new Scroller(context));
         textView.setVerticalScrollBarEnabled(true);
@@ -191,19 +187,16 @@ public class UtilOtc extends Application {
     }
 
     public static String formatAmount(double amount){
-
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.UK);
         nf.setMinimumFractionDigits(2);
         nf.setMaximumFractionDigits(2);
         nf.setGroupingUsed(true);
-
         return nf.format(amount);
     }
 
     public static void injectKeys() {
 
         // CLAVE A283C38D7D7366C6DEFD9B6FFBF45783
-
         String TLK = "F4F710AE16B5C1EF1985512616FE6432867FFD23E99408AD";
         String TMK = "811164B0BB4126C1EE75377DE9FE5F0B"; // ENCRYPT TLK  // 3DES - ECB
         String TDK = "60AB5A1E944ED2936F1954B7C34C9C5B"; // ENCRYPT TMK SLOT 2
@@ -247,59 +240,6 @@ public class UtilOtc extends Application {
 
     }
 
-    public static void injectKeys2() {
-
-        // CLAVE A283C38D7D7366C6DEFD9B6FFBF45783
-
-        byte slot1 = (byte) 1;
-        String TLK = "F4F710AE16B5C1EF1985512616FE6432";
-        String TMK = "E281531DC3AC5DDE1C8556A215EDD29D"; // ENCRYPT TLK
-        String TDK = "C0B765112F132C9481A42CAEF24A4B82"; // ENCRYPT TMK SLOT 2 // 3DES -  CBC
-
-        byte[] bytesTLK2 = TradeApplication
-                .getConvert()
-                .strToBcd(TLK, IConvert.EPaddingPosition.PADDING_LEFT);
-
-        byte[] bytesTMK2 = TradeApplication
-                .getConvert()
-                .strToBcd(TMK, IConvert.EPaddingPosition.PADDING_LEFT);
-
-        byte[] bytesTDK = TradeApplication
-                .getConvert()
-                .strToBcd(TDK, IConvert.EPaddingPosition.PADDING_LEFT);
-
-//        byte[] bytesTPK = TradeApplication
-//                .getConvert()
-//                .strToBcd(TPK, IConvert.EPaddingPosition.PADDING_LEFT);
-
-        try {
-            //Device.writeTLK(bytesTLK2);
-
-            // KEY 1
-            Device.getKCV_TLK();
-
-            //encrypt con ECB
-            //SLOT2 tmk_otc
-            int slotTMK = 1;
-            int slotTDK = 1;
-//            int slotTPK = 1;
-            Device.writeTMK2(slotTMK, bytesTMK2);
-
-            // KEY 2
-            Device.getKCV_TMK((byte) slotTMK);
-
-            Device.writeTDK2(slotTMK,slotTDK, bytesTDK);
-
-            // KEY 3
-            Device.getKCV_TDK((byte) slotTDK);
-//
-
-        } catch (Exception e) {
-            Log.e(TAG, "uploadKeys: ", e);
-        }
-
-    }
-
     public static boolean cleanKeys() {
         try {
             Device.cleanKeys();
@@ -319,6 +259,20 @@ public class UtilOtc extends Application {
         catch (Exception ex){
             Log.e(TAG, "keyValidateTlk: ", ex);
             result = "vacío";
+        }
+        return result;
+    }
+
+
+    public static boolean keyValidateTlkBoolean(){
+        boolean result = true;
+        try{
+            TradeApplication.getConvert().bcdToStr( Device.getKCV_TLK());
+            result = true;
+        }
+        catch (Exception ex){
+            Log.e(TAG, "keyValidateTlk: ", ex);
+            result = false;
         }
         return result;
     }
@@ -346,7 +300,6 @@ public class UtilOtc extends Application {
         }
         return result;
     }
-
 
     public static String keyValidateAes(int indexAES) {
 
@@ -379,6 +332,5 @@ public class UtilOtc extends Application {
         }
 
     }
-
 
 }

@@ -214,6 +214,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
                 Intent intent = new Intent(this, TradeResultActivity.class);
                 intent.putExtra(REQUEST_TENANT, TENANT);
+                intent.putExtra(REQUEST_OPERATION, OPERATION);
                 intent.putExtra("amount", amount);
                 intent.putExtra("pan", pan);
                 intent.putExtra("pin", "70000");
@@ -282,7 +283,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         Log.i(TAG, "startEmvTrans: ******************************************************");
 
 
-        if (OPERATION.equals("search")){
+        if (OPERATION.equals("search") || OPERATION.equals("cancel")){
             emv = new ImplEmv(SwingCardActivity.this, false);
         }else{
             emv = new ImplEmv(SwingCardActivity.this);
@@ -379,6 +380,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
                     Intent intent = new Intent(this, TradeResultActivity.class);
                     intent.putExtra(REQUEST_TENANT, TENANT);
+                    intent.putExtra(REQUEST_OPERATION, OPERATION);
                     intent.putExtra("amount", amount);
                     intent.putExtra("pan", pan);
                     intent.putExtra("track2", UtilOtc.getTrack2(strTrack2));
@@ -393,6 +395,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
             }else{
                     Intent intent = new Intent(this, TradeResultActivity.class);
                     intent.putExtra(REQUEST_TENANT, TENANT);
+                    intent.putExtra(REQUEST_OPERATION, OPERATION);
                     intent.putExtra("amount", amount);
                     intent.putExtra("pan", pan);
                     intent.putExtra("track2", UtilOtc.getTrack2(strTrack2));
@@ -648,6 +651,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         Log.i(TAG, "startConlssPBOC: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
         emv = new ImplEmv(SwingCardActivity.this);
+        emv.operation = OPERATION;
         emv.ulAmntAuth = entryPoint.getTransParam().ulAmntAuth;
         emv.amount = amount;
         Log.i(TAG, "transParam.ulAmntAuth:" + emv.ulAmntAuth);
@@ -1011,6 +1015,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
             Intent intent = new Intent(this, TradeResultActivity.class);
             intent.putExtra(REQUEST_TENANT, TENANT);
+            intent.putExtra(REQUEST_OPERATION, OPERATION);
             intent.putExtra("amount", amount);
             intent.putExtra("pan", pan);
             intent.putExtra("pin", "40000");
@@ -1053,6 +1058,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
         Log.i(TAG, "Start TradeResultActivity");
         Intent intent = new Intent(this, TradeResultActivity.class);
         intent.putExtra(REQUEST_TENANT, TENANT);
+        intent.putExtra(REQUEST_OPERATION, OPERATION);
         intent.putExtra("amount", amount);
         intent.putExtra("pan", pan);
         intent.putExtra("track2", trackData2_38);
@@ -1069,6 +1075,7 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
 
         Intent intent = new Intent(SwingCardActivity.this, ConsumeActivity.class);
         intent.putExtra(REQUEST_TENANT, TENANT);
+        intent.putExtra(REQUEST_OPERATION, OPERATION);
         intent.putExtra("amount", amount);
         intent.putExtra("pan", pan);
         intent.putExtra("result", result);

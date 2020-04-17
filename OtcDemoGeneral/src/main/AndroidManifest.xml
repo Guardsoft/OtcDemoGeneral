@@ -18,28 +18,45 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.culqi.adapter.SalesVoucherActivity"></activity>
-        <activity android:name="com.culqi.SendSmsResultActivity" />
+
+        <activity
+            android:name="com.culqi.adapter.SalesVoucherActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor"/>
+
+        <activity android:name="com.culqi.SendSmsResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="fullSensor"/>
+
         <activity
             android:name="com.culqi.SendSmsActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="stateVisible"
             android:theme="@style/LightTheme" />
+
         <activity android:name="com.otc.ui.KeyValidateActivity" />
+
         <activity android:name="com.otc.ui.OrderActivity" />
+
         <activity android:name="com.culqi.SalesDetailActivity" />
+
         <activity android:name="com.culqi.SalesTodayActivity" />
+
         <activity
             android:name="com.culqi.SalesSummaryActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.culqi.SalesActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.culqi.HomeCulqiActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.culqi.MainCulqiActivity"
             android:launchMode="singleTask"
@@ -50,10 +67,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.otc.ui.MainOtcActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.otc.ui.DemoActivity"
             android:launchMode="singleTask"

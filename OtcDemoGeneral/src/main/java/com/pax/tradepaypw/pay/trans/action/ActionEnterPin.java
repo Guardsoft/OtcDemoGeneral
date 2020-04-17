@@ -33,6 +33,7 @@ public class ActionEnterPin extends AAction {
     private String totalAmount;
     private String offlinePinLeftTimes;
     private boolean isOnlinePin;
+    private String operation;
     //private EEnterPinType enterPinType;
 
     public ActionEnterPin(ActionStartListener listener) {
@@ -74,6 +75,18 @@ public class ActionEnterPin extends AAction {
         //this.subHeader = subHeader;
         this.totalAmount = totalAmount;
         this.offlinePinLeftTimes = offlinePinLeftTimes; //AET-81
+        //this.enterPinType = enterPinType;
+    }
+
+    public void setParam(Context context, String pan, String operation, boolean onlinePin, String totalAmount, String offlinePinLeftTimes) {
+        this.context = context;
+        this.pan = pan;
+        this.isOnlinePin = onlinePin;
+        //this.header = header;
+        //this.subHeader = subHeader;
+        this.totalAmount = totalAmount;
+        this.offlinePinLeftTimes = offlinePinLeftTimes; //AET-81
+        this.operation = operation;
         //this.enterPinType = enterPinType;
     }
 

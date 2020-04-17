@@ -39,6 +39,7 @@ public class ImplEmv {
 
     private static SparseArray<byte[]> tags = new SparseArray<>();
     private static final String TAG = "ImplEmv";
+    public String operation;
     private EMVCallback emvCallback;
     private static Context emvContext;
     private static ConditionVariable cv;

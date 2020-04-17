@@ -43,6 +43,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Route;
 
+import static com.otc.ui.util.UtilOtc.injectKeys;
+
 public class MainCulqiActivity extends AppCompatActivity {
 
     private static final String TAG = "MainCulqiActivity";
@@ -72,8 +74,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         initView();
 
         initData();
-
-        accessToken();
 
         tvStart.setOnClickListener(v -> {
 
@@ -110,9 +110,16 @@ public class MainCulqiActivity extends AppCompatActivity {
         editor.putLong("purchase_number", purchaseNumber);
         editor.apply();
 
-
         ivLogo.setImageResource(R.drawable.ic_logo_culqi);
         layoutInitial.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
+
+
+        //UtilOtc.injectKeys();
+        if (!UtilOtc.keyValidateTlkBoolean()) {
+            UtilOtc.injectKeys();
+        }
+
+        accessToken();
 
     }
 

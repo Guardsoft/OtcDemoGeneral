@@ -93,6 +93,7 @@ public class TradeResultActivity extends AppCompatActivity {
     private TextView tvCardNumber;
     private TextView tvResult;
     private ImageView ivLoadingTip;
+    private TextView tvVoucher;
 
 
     private Handler handler = new Handler();
@@ -610,13 +611,9 @@ public class TradeResultActivity extends AppCompatActivity {
         tvAmount.setText(amount);
 
 
-        if (getIntent().getStringExtra("pin") != null) {
-            Toast.makeText(getApplicationContext(),getIntent().getStringExtra("pin"),Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
+//        if (getIntent().getStringExtra("pin") != null) {
+//            Toast.makeText(getApplicationContext(),getIntent().getStringExtra("pin"),Toast.LENGTH_SHORT).show();
+//        }
 
         String pinBlockEncrypt = getIntent().getStringExtra("pinBlock");
         String pin = getIntent().getStringExtra("pin");
@@ -625,11 +622,7 @@ public class TradeResultActivity extends AppCompatActivity {
 
         OPERATION = getIntent().getStringExtra(REQUEST_OPERATION);
 
-        OPERATION = OPERATION == null ? "": OPERATION;
-
         String type = getIntent().getStringExtra("type");
-
-
 
         tvArqc.setText(arqc);
         tvApplable.setText(appLable);
@@ -654,20 +647,21 @@ public class TradeResultActivity extends AppCompatActivity {
             Log.i(TAG, "initData: " + pinBlockEncrypt);
             Log.i(TAG, "initData: " + TRACK2);
             Log.i(TAG, "initData: " + initializeResponse);
+            Log.i(TAG, "initData: " + OPERATION);
 
             if (OPERATION.equals("cancel")) {
+
+                tvVoucher.setVisibility(View.GONE);
+
                 Log.i(TAG, "initData: ANULAR");
-
-
                 voidCancel(initializeResponse, type, TRACK2);
                 
-            }if (OPERATION.equals("search")) {
+            } else if (OPERATION.equals("search")) {
+
                 Log.i(TAG, "initData: ANULAR");
-
-
                 voidCancel(initializeResponse, type, TRACK2);
 
-            }else{
+            }else {
                 Log.i(TAG, "initData: AUTORIZAR");
                 authorize(initializeResponse, type, amount, TRACK2, pinBlockEncrypt, emvJoined);
             }
@@ -705,6 +699,7 @@ public class TradeResultActivity extends AppCompatActivity {
         tvAmountResult = findViewById(R.id.tv_amount);
         layout10 = findViewById(R.id.layout_10);
         tvResult = findViewById(R.id.tv_result);
+        tvVoucher = findViewById(R.id.tv_voucher);
     }
 
     public void enterClick(View view) {
@@ -1218,15 +1213,21 @@ public class TradeResultActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void sendVoucherActivity(View view) {
+    public void  sendVoucherActivity(View view) {
 
-        Intent intent = new Intent(this, SalesVoucherActivity.class);
-        intent.putExtra(REQUEST_TENANT, "culqi");
-        intent.putExtra(REQUEST_AMOUNT, amount);
-        intent.putExtra(REQUEST_PURCHASE_NUMBER, authorizeResponse.getOrder().getPurchaseNumber());
-        intent.putExtra(REQUEST_AUTHORIZE, authorizeResponse);
-        intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
-        startActivity(intent);
+        if (authorizeResponse == null) {
+            backHome();
+        }else{
+
+            Intent intent = new Intent(this, SalesVoucherActivity.class);
+            intent.putExtra(REQUEST_TENANT, "culqi");
+            intent.putExtra(REQUEST_AMOUNT, amount);
+            intent.putExtra(REQUEST_PURCHASE_NUMBER, authorizeResponse.getOrder().getPurchaseNumber());
+            intent.putExtra(REQUEST_AUTHORIZE, authorizeResponse);
+            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
+            startActivity(intent);
+
+        }
 
     }
 }

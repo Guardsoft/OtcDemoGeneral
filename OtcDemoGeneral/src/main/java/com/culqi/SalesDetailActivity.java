@@ -83,6 +83,10 @@ public class SalesDetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("DETALLE DE LA VENTA");
         }
 
+        toolbar.setNavigationOnClickListener(v -> {
+            onBackPressed();
+        });
+
         SharedPreferences prefsPax = getSharedPreferences("pax", Context.MODE_PRIVATE | Context.MODE_MULTI_PROCESS);
         authorization = prefsPax.getString("authorization", "");
 

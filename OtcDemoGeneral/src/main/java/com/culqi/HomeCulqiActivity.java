@@ -47,7 +47,6 @@ public class HomeCulqiActivity extends AppCompatActivity {
             startActivity(SalesTodayActivity.class , "report");
         });
 
-
         btnCancellations.setOnClickListener(view -> {
             startActivity(SwingCardActivity.class , "search");
         });

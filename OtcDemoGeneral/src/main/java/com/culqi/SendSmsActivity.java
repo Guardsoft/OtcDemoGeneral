@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import com.otc.model.response.InitializeResponse;
 import com.otc.model.response.authorize.AuthorizeResponse;
 import com.otc.model.response.retrieve.TransactionsItem;
 import com.otc.model.response.send.SendSmsResponse;
+import com.otc.ui.util.UtilOtc;
+import com.otc.ui.util.Utils;
 import com.pax.jemv.demo.R;
 
 import java.util.UUID;
@@ -80,6 +83,7 @@ public class SendSmsActivity extends AppCompatActivity {
 
 
         tvAceptar.setOnClickListener(view ->{
+            Utils.hideKeyboard(this);
             sendSms();
         });
 
@@ -154,11 +158,7 @@ public class SendSmsActivity extends AppCompatActivity {
                             intent.putExtra(REQUEST_TENANT, tenant);
                             intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
                             startActivity(intent);
-
-                        } else {
-
                         }
-
 
                     }
 
@@ -172,7 +172,6 @@ public class SendSmsActivity extends AppCompatActivity {
                         Log.e(TAG, "onError: ", error);
                     }
                 });
-
 
     }
 }
