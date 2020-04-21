@@ -59,7 +59,7 @@ android {
                     if (output.name == 'debug') {
                         type = "_debug"
                     }
-                    def fileName = "JemvDemo_V${defaultConfig.versionName}${type}.apk"
+                    def fileName = "OTCDemo${defaultConfig.versionName}${type}.apk"
                     output.outputFileName = fileName
                 }
             }

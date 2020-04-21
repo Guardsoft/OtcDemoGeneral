@@ -1011,6 +1011,23 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
             intent.putExtra("track2", trackData2_38);
             startActivity(intent);
 
+        }else if (OPERATION.equals("cancel")) {
+
+            Intent intent = new Intent(this, TradeResultActivity.class);
+            intent.putExtra(REQUEST_TENANT, TENANT);
+            intent.putExtra(REQUEST_OPERATION, OPERATION);
+            intent.putExtra(REQUEST_TRANSACTION, transactionsItem);
+            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
+
+            intent.putExtra("amount", amount);
+            intent.putExtra("pan", pan);
+            intent.putExtra("track2", trackData2_38);
+            intent.putExtra("pinBlock", GetPinEmv.getInstance().getPinDataEncrypt());
+            intent.putExtra("type", "contactless");
+            intent.putExtra("pin", "40000");
+            intent.putExtra("purchase", purchaseNumber);
+            startActivity(intent);
+
         }else{
 
             Intent intent = new Intent(this, TradeResultActivity.class);

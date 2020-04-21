@@ -611,9 +611,9 @@ public class TradeResultActivity extends AppCompatActivity {
         tvAmount.setText(amount);
 
 
-//        if (getIntent().getStringExtra("pin") != null) {
-//            Toast.makeText(getApplicationContext(),getIntent().getStringExtra("pin"),Toast.LENGTH_SHORT).show();
-//        }
+        /*if (getIntent().getStringExtra("pin") != null) {
+            Toast.makeText(getApplicationContext(),getIntent().getStringExtra("pin"),Toast.LENGTH_SHORT).show();
+        }*/
 
         String pinBlockEncrypt = getIntent().getStringExtra("pinBlock");
         String pin = getIntent().getStringExtra("pin");
