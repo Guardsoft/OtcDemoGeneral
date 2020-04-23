@@ -81,7 +81,7 @@ public class SalesActivity extends AppCompatActivity {
                 case KEY_BOARD_OK:
                     String amount = etAmount.getText().toString().trim();
                     if (amount != null && !amount.equals("0.00") && !amount.equals("")) {
-                        KeyBoardUtils.hide(SalesActivity.this, flkeyBoardContainer);
+                        //KeyBoardUtils.hide(SalesActivity.this, flkeyBoardContainer);
 
                         Intent intent = new Intent(SalesActivity.this, SwingCardActivity.class);
                         intent.putExtra(REQUEST_TENANT, TENANT);
