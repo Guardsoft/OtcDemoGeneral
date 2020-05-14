@@ -881,6 +881,7 @@ public class TradeResultActivity extends AppCompatActivity {
                         Gson gson = new Gson();
 
                         String requestAut = error.getErrorBody();
+                        
                         AuthorizeResponse errorAut = gson.fromJson(requestAut, AuthorizeResponse.class);
 
                         // handle error

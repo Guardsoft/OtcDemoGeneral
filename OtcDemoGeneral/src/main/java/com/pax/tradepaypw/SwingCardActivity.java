@@ -1173,8 +1173,6 @@ public class SwingCardActivity extends AppCompatActivity implements View.OnClick
             tvTitle.setText("Anular");
         }
 
-
-
         layoutReadCulqi.setVisibility(View.VISIBLE);
         layoutReadIzipay.setVisibility(View.GONE);
         layoutReadVendemas.setVisibility(View.GONE);

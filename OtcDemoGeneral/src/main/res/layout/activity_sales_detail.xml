@@ -139,8 +139,27 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
+
         </LinearLayout>
 
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_signature"
+                android:text="Firma"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/bbva_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

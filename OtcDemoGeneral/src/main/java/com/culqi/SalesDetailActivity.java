@@ -51,6 +51,7 @@ public class SalesDetailActivity extends AppCompatActivity {
     InitializeResponse initializeResponse;
     String tenant;
     Button btnSalesCancel;
+    Button btnSignature;
     LinearLayout layoutProgress;
 
 
@@ -71,6 +72,7 @@ public class SalesDetailActivity extends AppCompatActivity {
         tvSalesDetailAmount = findViewById(R.id.tv_sales_detail_amount);
         tvSalesDetailSendSms = findViewById(R.id.tv_sales_detail_send_sms);
 
+        btnSignature = findViewById(R.id.btn_signature);
         btnSalesCancel = findViewById(R.id.btn_sales_detail_cancel);
         layoutProgress = findViewById(R.id.layout_progress);
 
@@ -123,6 +125,12 @@ public class SalesDetailActivity extends AppCompatActivity {
             intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
             startActivity(intent);
 
+        });
+
+
+        btnSignature.setOnClickListener(view ->{
+            Intent intent = new Intent(this, SignatureActivity.class);
+            startActivity(intent);
         });
     }
 

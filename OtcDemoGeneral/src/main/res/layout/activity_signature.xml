@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.culqi.SendSmsActivity">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context="com.culqi.SignatureActivity">
 
     <RelativeLayout
         android:id="@+id/layout_1"
@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/tv_result"
-                android:text="Ingresamos el \ncelular"
+                android:text="FIRMA DENTRO DEL\nRECUADRO"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -38,11 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_10"
+            android:layout_marginTop="2dp"
             android:orientation="vertical">
 
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card_signature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -57,25 +59,27 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:gravity="center"
                 android:padding="20dp"
+                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
 
-                <EditText
-                    android:id="@+id/et_number_phone"
-                    android:gravity="center"
+                <com.kyanogen.signatureview.SignatureView
+                    xmlns:sign="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/signature_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="15"
-                    android:inputType="number" />
+                    android:layout_height="160dp"
+                    sign:penSize="5dp"
+                    sign:backgroundColor="#ffffff"
+                    sign:penColor="#000000"
+                    sign:enableSignature="true"/>
 
                 <TextView
-                    android:id="@+id/tv_aceptar"
+                    android:id="@+id/tv_signature_aceptar"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:text="Aceptar"
                     android:textColor="@color/culqi_blue"
                     android:textSize="18dp" />
@@ -84,9 +88,11 @@
 
         </androidx.cardview.widget.CardView>
 
+
     </RelativeLayout>
 
     <include layout="@layout/view_culqi_loading"/>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

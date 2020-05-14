@@ -174,7 +174,6 @@ public class UtilOtc extends Application {
 
         track = track.substring(0,6) + "******" + track.substring(12);
 
-
         return track;
     }
 
@@ -199,7 +198,9 @@ public class UtilOtc extends Application {
         // CLAVE A283C38D7D7366C6DEFD9B6FFBF45783
         String TLK = "F4F710AE16B5C1EF1985512616FE6432867FFD23E99408AD";
         String TMK = "811164B0BB4126C1EE75377DE9FE5F0B"; // ENCRYPT TLK  // 3DES - ECB
-        String TDK = "60AB5A1E944ED2936F1954B7C34C9C5B"; // ENCRYPT TMK SLOT 2
+        String TDK = "60AB5A1E944ED2936F1954B7C34C9C5B"; // ENCRYPT TMK SLOT 2   // LLAVE EN CLARO + LA LLAVE A ENCRIPTAR // 3DES - ECB
+        //String TAK =   VALUE // llave en claro + llave a encriptar // 3DES - ECB
+
 //        String TPK = "B759ACBF8BF0F8FB8DAA489616E62F1D61149C44294CA155FD4FF005F8D68E60";
 
         byte[] bytesTLK = TradeApplication

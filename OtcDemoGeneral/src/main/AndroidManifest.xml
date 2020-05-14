@@ -18,28 +18,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name="com.culqi.SignatureActivity"></activity>
         <activity
             android:name="com.culqi.adapter.SalesVoucherActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"/>
-
-        <activity android:name="com.culqi.SendSmsResultActivity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name="com.culqi.SendSmsResultActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="fullSensor"/>
-
+            android:screenOrientation="fullSensor" />
         <activity
             android:name="com.culqi.SendSmsActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateVisible"
-            android:theme="@style/LightTheme" />
-
+            android:theme="@style/LightTheme"
+            android:windowSoftInputMode="stateVisible" />
         <activity android:name="com.otc.ui.KeyValidateActivity" />
-
         <activity android:name="com.otc.ui.OrderActivity" />
-
         <activity android:name="com.culqi.SalesDetailActivity" />
-
         <activity android:name="com.culqi.SalesTodayActivity" />
 
         <activity
@@ -85,27 +80,33 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
+
         <activity
             android:name="com.pax.tradepaypw.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.pax.tradepaypw.SplashActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/ViewBigPicTheme" />
+
         <activity
             android:name="com.pax.tradepaypw.SwingCardActivity"
             android:process="com.pax.detectCard"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.pax.tradepaypw.ConsumeActivity"
             android:process="com.pax.detectCard"
             android:screenOrientation="fullSensor" />
+
         <activity
             android:name="com.pax.tradepaypw.TradeResultActivity"
             android:process="com.pax.detectCard"
             android:screenOrientation="fullSensor"
             android:theme="@style/LightTheme" />
+
         <activity android:name="com.pax.tradepaypw.ViewParamActivity" />
         <activity android:name="com.pax.tradepaypw.VersionActivity" />
         <activity

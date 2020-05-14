@@ -236,6 +236,33 @@ public class Device {
         return null;
     }
 
+    public static String decrypt3DesEBC(String value, int indexTDK) {
+        byte [] initVector = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}; //init vector of CBC
+
+
+        int DECRYPT_ECB = 0;
+        int ENCRYPT_ECB = 1;
+        int DECRYPT_CBC = 2;
+        int ENCRYPT_CBC = 3;
+
+        try {
+            byte [] valueByte = TradeApplication.getConvert()
+                    .strToBcd(value, IConvert.EPaddingPosition.PADDING_LEFT);
+
+            byte [] result =  TradeApplication.getDal().getPed(EPedType.INTERNAL)
+                    .calcDes(
+                            (byte)indexTDK,
+                            null,
+                            valueByte,
+                            (byte)DECRYPT_ECB);
+
+            return TradeApplication.getConvert().bcdToStr(result);
+        } catch (PedDevException e) {
+            Log.w("writeTMK", e);
+        }
+        return null;
+    }
+
     public static boolean writeTAESK2(int indexTmk, int indexTAesk , byte[] tpkValue) {
 //***
         try {
