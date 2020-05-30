@@ -32,6 +32,7 @@ import com.otc.model.response.InitializeResponse;
 import com.otc.model.response.retrieve.RetrieveResponse;
 import com.otc.model.response.retrieve.TransactionsItem;
 import com.otc.ui.util.UtilOtc;
+import com.pax.jemv.demo.BuildConfig;
 import com.pax.jemv.demo.R;
 
 import java.util.ArrayList;
@@ -145,33 +146,40 @@ public class SalesTodayActivity extends AppCompatActivity {
 
         if (OPERATION.equals("search")) {
 
+            String track2Encrypt = TRACK2;
 
             // crypto ------------------------------------------------------------------------------
-            Cryptography crypt = new Cryptography();
-            crypt.setOwner(UtilOtc.getSerialNumber());
-            crypt.setMode("DEVICE");
 
-            List<com.otc.model.request.retrieve.ScopesItem> scopes = new ArrayList<>();
+            Cryptography crypt = null;
 
-            //** scope para track2
-            com.otc.model.request.retrieve.ScopesItem scopesItemTrack2
-                    = new com.otc.model.request.retrieve.ScopesItem();
+            if (BuildConfig.CRYPTOGRAPHY) {
 
-            scopesItemTrack2.setKeyId("data");
-            scopesItemTrack2.setKeyType("DATA");
-            List<String> elementstrack2 = new ArrayList<>();
-            elementstrack2.add("card.track2");
-            scopesItemTrack2.setElements(elementstrack2);
+                track2Encrypt = encryptDataAes(TRACK2);
 
-            scopes.add(scopesItemTrack2);
+                crypt = new Cryptography();
+                crypt.setOwner(UtilOtc.getSerialNumber());
+                crypt.setMode("DEVICE");
 
-            crypt.setScopes(scopes);
+                List<com.otc.model.request.retrieve.ScopesItem> scopes = new ArrayList<>();
+
+                //** scope para track2
+                com.otc.model.request.retrieve.ScopesItem scopesItemTrack2
+                        = new com.otc.model.request.retrieve.ScopesItem();
+
+                scopesItemTrack2.setKeyId("data");
+                scopesItemTrack2.setKeyType("DATA");
+                List<String> elementstrack2 = new ArrayList<>();
+                elementstrack2.add("card.track2");
+                scopesItemTrack2.setElements(elementstrack2);
+
+                scopes.add(scopesItemTrack2);
+
+                crypt.setScopes(scopes);
+            }
 
             request.setCryptography(crypt);
 
             // card --------------------------------------------------------------------------------
-            String track2Encrypt = encryptDataAes(TRACK2);
-
             Card card = new Card();
             card.setSequenceNumber("001");
             card.setTrack2(track2Encrypt);

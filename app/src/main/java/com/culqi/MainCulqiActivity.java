@@ -114,10 +114,10 @@ public class MainCulqiActivity extends AppCompatActivity {
         layoutInitial.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
 
 
-        //UtilOtc.injectKeys();
-        if (!UtilOtc.keyValidateTlkBoolean()) {
-            UtilOtc.injectKeys();
-        }
+        UtilOtc.injectKeys();
+//        if (!UtilOtc.keyValidateTlkBoolean()) {
+//            UtilOtc.injectKeys();
+//        }
 
         accessToken();
 

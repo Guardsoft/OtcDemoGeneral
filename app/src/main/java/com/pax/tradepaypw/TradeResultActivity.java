@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -23,7 +22,6 @@ import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
 import com.culqi.MainCulqiActivity;
-import com.culqi.SendSmsActivity;
 import com.culqi.adapter.SalesVoucherActivity;
 import com.google.gson.Gson;
 import com.otc.manager.PrinterManager;
@@ -48,6 +46,7 @@ import com.pax.jemv.clcommon.KernType;
 import com.pax.jemv.clcommon.TransactionPath;
 import com.pax.jemv.clssentrypoint.trans.ClssEntryPoint;
 import com.pax.jemv.clssquickpass.trans.ClssQuickPass;
+import com.pax.jemv.demo.BuildConfig;
 import com.pax.jemv.demo.R;
 import com.pax.jemv.dpas.api.ClssDPASApi;
 import com.pax.jemv.emv.api.EMVCallback;
@@ -753,8 +752,7 @@ public class TradeResultActivity extends AppCompatActivity {
         String DOMAIN = "https://culqimpos.quiputech.com/";
 
         Log.i(TAG, "*** authorize Track2 trackData2_38: " + track2);
-        String track2Encrypt = encryptDataAes(track2);
-        Log.i(TAG, "*** authorize Track2  track2Encrypt: " + track2Encrypt);
+        String TRACK = track2;
 
         String terminalId = response.getDevice().getTerminalId();
         String serialNumber = response.getDevice().getSerialNumber();
@@ -762,40 +760,49 @@ public class TradeResultActivity extends AppCompatActivity {
         Header header = new Header();
         header.setExternalId(UUID.randomUUID().toString());
 
-        Cryptography crypt = new Cryptography();
-        crypt.setOwner(UtilOtc.getSerialNumber());
-        crypt.setMode("DEVICE");
+        Cryptography crypt = null;
 
-        List<ScopesItem> scopes = new ArrayList<>();
+        if (BuildConfig.CRYPTOGRAPHY) {
 
-        //** scope para track2
-        ScopesItem scopesItemTrack2 = new ScopesItem();
-        scopesItemTrack2.setKeyId("data");
-        scopesItemTrack2.setKeyType("DATA");
-                List<String> elementstrack2 = new ArrayList<>();
-        elementstrack2.add("card.track2");
-        scopesItemTrack2.setElements(elementstrack2);
+            TRACK = encryptDataAes(track2);
 
-        // agregar objeto a scopes
-        scopes.add(scopesItemTrack2);
+            crypt = new Cryptography();
+            crypt.setOwner(UtilOtc.getSerialNumber());
+            crypt.setMode("DEVICE");
 
-        pinBlockEncrypt = pinBlockEncrypt == null ? "": pinBlockEncrypt;
+            List<ScopesItem> scopes = new ArrayList<>();
 
-        if (!pinBlockEncrypt.equals("")) {
-            //** scope para pinBlock
-            ScopesItem scopesItemPin = new ScopesItem();
-            scopesItemPin.setKeyId("pin");
-            scopesItemPin.setKeyType("PIN");
-            List<String> elementspinBlock = new ArrayList<>();
-            elementspinBlock.add("card.pinBlock");
-            scopesItemPin.setElements(elementspinBlock);
+            //** scope para track2
+            ScopesItem scopesItemTrack2 = new ScopesItem();
+            scopesItemTrack2.setKeyId("data");
+            scopesItemTrack2.setKeyType("DATA");
+            List<String> elementstrack2 = new ArrayList<>();
+            elementstrack2.add("card.track2");
+            scopesItemTrack2.setElements(elementstrack2);
 
             // agregar objeto a scopes
-            scopes.add(scopesItemPin);
+            scopes.add(scopesItemTrack2);
+
+            pinBlockEncrypt = pinBlockEncrypt == null ? "": pinBlockEncrypt;
+
+            if (!pinBlockEncrypt.equals("")) {
+                //** scope para pinBlock
+                ScopesItem scopesItemPin = new ScopesItem();
+                scopesItemPin.setKeyId("pin");
+                scopesItemPin.setKeyType("PIN");
+                List<String> elementspinBlock = new ArrayList<>();
+                elementspinBlock.add("card.pinBlock");
+                scopesItemPin.setElements(elementspinBlock);
+
+                // agregar objeto a scopes
+                scopes.add(scopesItemPin);
+            }
+
+            crypt.setScopes(scopes);
+        }else{
+            pinBlockEncrypt = "";
         }
 
-
-        crypt.setScopes(scopes);
 
         Merchant merchant = new Merchant();
         merchant.setMerchantId(response.getMerchant().getMerchantId());
@@ -817,7 +824,7 @@ public class TradeResultActivity extends AppCompatActivity {
 
         Card card = new Card();
         card.setSequenceNumber("001");
-        card.setTrack2(track2Encrypt);
+        card.setTrack2(TRACK);
         card.setPinBlock(pinBlockEncrypt);
 
         if (emv != null) {
@@ -904,7 +911,11 @@ public class TradeResultActivity extends AppCompatActivity {
 
         String DOMAIN = "https://culqimpos.quiputech.com/";
 
-        String track2Encrypt = encryptDataAes(track2);
+        String track2Encrypt = track2;
+
+        if (BuildConfig.CRYPTOGRAPHY) {
+            track2Encrypt = encryptDataAes(track2);
+        }
 
         //request  +++++++++++++++++++++++++++++++++++++++++++++
         com.otc.model.request.cancel.Header header = new com.otc.model.request.cancel.Header();
@@ -928,24 +939,30 @@ public class TradeResultActivity extends AppCompatActivity {
         com.otc.model.request.cancel.Card card = new com.otc.model.request.cancel.Card();
         card.setTrack2(track2Encrypt);
 
-        com.otc.model.request.cancel.Cryptography crypt = new com.otc.model.request.cancel.Cryptography();
-        crypt.setOwner(UtilOtc.getSerialNumber());
-        crypt.setMode("DEVICE");
+        com.otc.model.request.cancel.Cryptography crypt = null;
 
-        List<com.otc.model.request.cancel.ScopesItem> scopes = new ArrayList<>();
+        if (BuildConfig.CRYPTOGRAPHY) {
+            track2Encrypt = encryptDataAes(track2);
 
-        //** scope para track2
-        com.otc.model.request.cancel.ScopesItem scopesItemTrack2 = new com.otc.model.request.cancel.ScopesItem();
-        scopesItemTrack2.setKeyId("data");
-        scopesItemTrack2.setKeyType("DATA");
-        List<String> elementstrack2 = new ArrayList<>();
-        elementstrack2.add("card.track2");
-        scopesItemTrack2.setElements(elementstrack2);
+            crypt = new com.otc.model.request.cancel.Cryptography();
+            crypt.setOwner(UtilOtc.getSerialNumber());
+            crypt.setMode("DEVICE");
 
-        // agregar objeto a scopes
-        scopes.add(scopesItemTrack2);
+            List<com.otc.model.request.cancel.ScopesItem> scopes = new ArrayList<>();
 
-        crypt.setScopes(scopes);
+            //** scope para track2
+            com.otc.model.request.cancel.ScopesItem scopesItemTrack2 = new com.otc.model.request.cancel.ScopesItem();
+            scopesItemTrack2.setKeyId("data");
+            scopesItemTrack2.setKeyType("DATA");
+            List<String> elementstrack2 = new ArrayList<>();
+            elementstrack2.add("card.track2");
+            scopesItemTrack2.setElements(elementstrack2);
+
+            // agregar objeto a scopes
+            scopes.add(scopesItemTrack2);
+
+            crypt.setScopes(scopes);
+        }
 
         VoidRequest request = new VoidRequest();
         request.setHeader(header);
@@ -970,7 +987,6 @@ public class TradeResultActivity extends AppCompatActivity {
                         GetPinEmv.getInstance().setPinData("");
 
                         layoutProgress.setVisibility(View.GONE);
-
 
                         Log.i(TAG, "onResponse: " + response);
                     }
