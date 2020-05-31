@@ -59,10 +59,6 @@ public class HomeCulqiActivity extends AppCompatActivity {
             TENANT = extras.getString(MainCulqiActivity.REQUEST_TENANT);
             Log.i(TAG, "initData: " + initializeResponse.toString());
 
-            layoutHome.setBackgroundResource(R.color.culqi_blue);
-            btnSales.setImageResource(R.drawable.ic_sales);
-            btnQueries.setImageResource(R.drawable.ic_queries);
-            btnCancellations.setImageResource(R.drawable.ic_cancellations);
         }
     }
 

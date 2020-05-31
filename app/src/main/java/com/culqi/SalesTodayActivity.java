@@ -52,7 +52,6 @@ public class SalesTodayActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private LinearLayout layoutProgress;
 
-
     //***********
     InitializeResponse initializeResponse;
     String TENANT;

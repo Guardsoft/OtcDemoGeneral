@@ -110,10 +110,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         editor.putLong("purchase_number", purchaseNumber);
         editor.apply();
 
-        ivLogo.setImageResource(R.drawable.ic_logo_culqi);
-        layoutInitial.setBackgroundColor(getResources().getColor(R.color.culqi_blue));
-
-
         UtilOtc.injectKeys();
 //        if (!UtilOtc.keyValidateTlkBoolean()) {
 //            UtilOtc.injectKeys();

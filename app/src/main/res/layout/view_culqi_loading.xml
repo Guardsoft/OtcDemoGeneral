@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical|center"
-    android:background="@color/culqi_blue"
+    android:background="@color/bbva_blue"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
     android:visibility="gone"
@@ -26,7 +26,6 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -50,7 +49,7 @@
 
 
             <TextView
-                android:text="Tip Culqi"
+                android:text="TIP"
                 android:textSize="20dp"
                 android:textColor="@color/culqi_blue"
                 android:gravity="center"
@@ -59,7 +58,7 @@
 
             <TextView
                 android:text="Te aconsejamos estar en un lugar con buena recepción de señal"
-                android:textColor="@color/culqi_blue"
+                android:textColor="@color/bbva_blue"
                 android:gravity="center"
                 android:padding="20dp"
                 android:layout_width="match_parent"
