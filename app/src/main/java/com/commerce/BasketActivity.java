@@ -1,19 +1,22 @@
-package com.culqi;
+package com.commerce;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -21,20 +24,23 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.androidnetworking.interfaces.StringRequestListener;
+import com.commerce.adapter.BasketAdapter;
+import com.commerce.adapter.CategoryAdapter;
+import com.commerce.model.local.Basket;
+import com.commerce.model.local.BasketItemRepository;
+import com.commerce.model.local.ShopItem;
+import com.culqi.MainCulqiActivity;
+import com.culqi.SalesActivity;
 import com.otc.model.request.Header;
 import com.otc.model.request.InitializeRequest;
 import com.otc.model.response.InitializeResponse;
-import com.otc.ui.DemoActivity;
-import com.otc.ui.MainOtcActivity;
 import com.otc.ui.util.UtilOtc;
-import com.pax.app.TradeApplication;
 import com.pax.jemv.demo.R;
-import com.pax.jemv.device.DeviceManager;
-import com.pax.tradepaypw.DeviceImplNeptune;
-import com.pax.tradepaypw.device.Device;
+import com.pax.tradepaypw.SwingCardActivity;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 import okhttp3.Authenticator;
@@ -43,87 +49,161 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Route;
 
-import static com.otc.ui.util.UtilOtc.injectKeys;
+import static com.culqi.MainCulqiActivity.REQUEST_INITIALIZE;
+import static com.culqi.MainCulqiActivity.REQUEST_TENANT;
 
-public class MainCulqiActivity extends AppCompatActivity {
+public class BasketActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainCulqiActivity";
-    public static final String REQUEST_INITIALIZE = "initialize";
-    public static final String REQUEST_TENANT = "tenant";
+    private static final String TAG = "BasketActivity";
 
+    // data and adapter
+    List<Basket> basketList;
+    BasketAdapter adapter;
 
-    private ImageView ivLogo;
-    private ImageView ivLogo2;
-    private ImageView ivLogoLoading;
-    private TextView tvStart;
-    private RelativeLayout layoutInitial;
-    private LinearLayout layoutProgress;
-    private String TENANT = "";
+    // RecyclerView
+    RecyclerView recyclerView;
 
-    //**** pax
-    private long purchaseNumber = 0L;
+    Button checkoutButton;
+    TextView totalPriceTextView;
+    LinearLayout layoutProgress;
     SharedPreferences prefsPax;
+    long purchaseNumber = 0L;
 
-    public InitializeResponse initializeResponse;
+    double SUBTOTAL = 0.0;
+
+    public static final String REQUEST_AMOUNT = "amount";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_culqi);
-
-        initView();
+        setContentView(R.layout.activity_basket);
 
         initData();
 
-        tvStart.setOnClickListener(v -> {
+        initUI();
 
-            Intent intent = new Intent(this, HomeCulqiActivity.class);
-            intent.putExtra(REQUEST_TENANT, TENANT);
-            intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
-            startActivity(intent);
-        });
+        initDataBindings();
 
-    }
-
-    private void initView() {
-        tvStart = findViewById(R.id.tv_start);
-        tvStart.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        layoutInitial = findViewById(R.id.layout_1);
-        layoutProgress = findViewById(R.id.layout_progress);
-        ivLogoLoading = findViewById(R.id.iv_logo_loading);
-        ivLogo = findViewById(R.id.iv_logo);
-        ivLogo2 = findViewById(R.id.iv_logo_2);
+        initActions();
 
     }
 
     private void initData() {
+        // get place list
+        basketList = BasketItemRepository.getBusketItemList();
+    }
+
+    private void initUI() {
+        initToolbar();
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         long time = timestamp.getTime()/1000;
-
-        AndroidNetworking.initialize(getApplicationContext());
         prefsPax = getSharedPreferences("pax", Context.MODE_PRIVATE| Context.MODE_MULTI_PROCESS);
         purchaseNumber = prefsPax.getLong("purchase_number", time);
         purchaseNumber++;
 
-        SharedPreferences.Editor editor = prefsPax.edit();
-        editor.putLong("purchase_number", purchaseNumber);
-        editor.apply();
+        // get list adapter
+        adapter = new BasketAdapter(basketList);
 
-        UtilOtc.injectKeys();
-//        if (!UtilOtc.keyValidateTlkBoolean()) {
-//            UtilOtc.injectKeys();
-//        }
+        // get recycler view
+        recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        checkoutButton = findViewById(R.id.checkoutButton);
+
+        totalPriceTextView = findViewById(R.id.totalPriceTextView);
+
+        layoutProgress = findViewById(R.id.layout_progress);
+    }
+
+    private void initDataBindings() {
+        // bind adapter to recycler
+        recyclerView.setAdapter(adapter);
+
+        try {
+            int total = 0;
+            for (int i = 0; i < basketList.size(); i++) {
+                Basket basket = basketList.get(i);
+                total += Integer.parseInt(basket.price);
+            }
+
+            String totalCost = basketList.get(0).currency + " " + total;
+            totalPriceTextView.setText(totalCost);
+        }catch (Exception ignored) { }
+    }
+
+    private void initActions() {
+        adapter.setOnItemClickListener(new BasketAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, Basket obj, int position) {
+                Toast.makeText(getApplicationContext(), "Clicked " + obj.name, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDeleteClick(View view, Basket obj, int position) {
+                Toast.makeText(getApplicationContext(), "Clicked Delete. ", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPriceChange(String currency, int subTotal) {
+                String totalStr = currency + " " + subTotal;
+                SUBTOTAL = subTotal;
+                totalPriceTextView.setText(totalStr);
+            }
+        });
+
+        checkoutButton.setOnClickListener(view ->{
+            readCard();
+        });
+    }
+
+    //region Init Toolbar
+    private void initToolbar() {
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.icon_back);
+
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.md_white_1000), PorterDuff.Mode.SRC_ATOP);
+        }
+
+        toolbar.setTitle("Basket 3");
+
+        try {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.md_white_1000));
+        } catch (Exception e) {
+            Log.e("TEAMPS", "Can't set color.");
+        }
+
+        try {
+            setSupportActionBar(toolbar);
+        } catch (Exception e) {
+            Log.e("TEAMPS", "Error in set support action bar.");
+        }
+
+        try {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        } catch (Exception e) {
+            Log.e("TEAMPS", "Error in set display home as up enabled.");
+        }
+
+    }
+
+    private void readCard() {
+        layoutProgress.setVisibility(View.VISIBLE);
         accessToken();
-
     }
 
     private void accessToken() {
         String DOMAIN = "https://culqimpos.quiputech.com/";
 
         layoutProgress.setVisibility(View.VISIBLE);
-        layoutInitial.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
 
         OkHttpClient client = new OkHttpClient.Builder().authenticator(new Authenticator() {
             @Override
@@ -143,9 +223,6 @@ public class MainCulqiActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        layoutProgress.setVisibility(View.GONE);
-                        layoutInitial.setVisibility(View.VISIBLE);
-
                         SharedPreferences.Editor editor = prefsPax.edit();
                         editor.putString("authorization", response);
                         editor.apply();
@@ -157,14 +234,14 @@ public class MainCulqiActivity extends AppCompatActivity {
                     public void onError(ANError error) {
 
                         layoutProgress.setVisibility(View.GONE);
-                        layoutInitial.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
                         Log.i(TAG, "onError: " + error.getErrorCode());
                         Log.i(TAG, "onError: " + error.getErrorDetail());
                         Log.i(TAG, "onError: " + error.getErrorBody());
                         Log.e(TAG, "onError: ", error);
 
-                        UtilOtc.getInstance().dialogResult(MainCulqiActivity.this, error.getErrorDetail());
+                        UtilOtc.getInstance().dialogResult(BasketActivity.this, error.getErrorDetail());
                     }
                 });
 
@@ -173,9 +250,6 @@ public class MainCulqiActivity extends AppCompatActivity {
     private void initialize(String authorization) {
 
         String DOMAIN = "https://culqimpos.quiputech.com/";
-
-        layoutProgress.setVisibility(View.VISIBLE);
-        layoutInitial.setVisibility(View.GONE);
 
         Header header = new Header();
         header.setExternalId(UUID.randomUUID().toString());
@@ -207,9 +281,7 @@ public class MainCulqiActivity extends AppCompatActivity {
                     public void onResponse(InitializeResponse response) {
 
                         layoutProgress.setVisibility(View.GONE);
-                        layoutInitial.setVisibility(View.VISIBLE);
 
-                        initializeResponse = response;
                         if (response.getKeys() != null) {
 
                             UtilOtc.writeWorkKeys(
@@ -217,15 +289,21 @@ public class MainCulqiActivity extends AppCompatActivity {
                                     response.getKeys().getEwkPinHex(),
                                     response.getKeys().getEwkMacSignature());
                         }
+
+                        Intent intent = new Intent(BasketActivity.this, SwingCardActivity.class);
+                        intent.putExtra(REQUEST_TENANT, "culqi");
+                        intent.putExtra(REQUEST_AMOUNT, SUBTOTAL +"");
+                        intent.putExtra(REQUEST_INITIALIZE, response);
+                        startActivity(intent);
                     }
 
                     @Override
                     public void onError(ANError error) {
 
                         layoutProgress.setVisibility(View.GONE);
-                        layoutInitial.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
-                        UtilOtc.getInstance().dialogResult(MainCulqiActivity.this, error.getErrorBody());
+                        UtilOtc.getInstance().dialogResult(BasketActivity.this, error.getErrorBody());
 
                         // handle error
                         Log.i(TAG, "onError: " + error.getErrorCode());
@@ -234,7 +312,6 @@ public class MainCulqiActivity extends AppCompatActivity {
                         Log.e(TAG, "onError: ", error);
                     }
                 });
-
     }
 
 }

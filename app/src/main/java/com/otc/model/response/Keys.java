@@ -8,12 +8,14 @@ public class Keys implements Parcelable {
 	private String ewkPinHex;
 	private String ewkDataHex;
 	private String ivDataHex;
+	private String ewkMacSignature;
 
 	protected Keys(Parcel in) {
 		ivPinHex = in.readString();
 		ewkPinHex = in.readString();
 		ewkDataHex = in.readString();
 		ivDataHex = in.readString();
+		ewkMacSignature = in.readString();
 	}
 
 	public static final Creator<Keys> CREATOR = new Creator<Keys>() {
@@ -60,16 +62,24 @@ public class Keys implements Parcelable {
 		return ivDataHex;
 	}
 
+	public String getEwkMacSignature() {
+		return ewkMacSignature;
+	}
+
+	public void setEwkMacSignature(String ewkMacSignature) {
+		this.ewkMacSignature = ewkMacSignature;
+	}
+
 	@Override
- 	public String toString(){
-		return 
-			"Keys{" + 
-			"ivPinHex = '" + ivPinHex + '\'' + 
-			",ewkPinHex = '" + ewkPinHex + '\'' + 
-			",ewkDataHex = '" + ewkDataHex + '\'' + 
-			",ivDataHex = '" + ivDataHex + '\'' + 
-			"}";
-		}
+	public String toString() {
+		return "Keys{" +
+				"ivPinHex='" + ivPinHex + '\'' +
+				", ewkPinHex='" + ewkPinHex + '\'' +
+				", ewkDataHex='" + ewkDataHex + '\'' +
+				", ivDataHex='" + ivDataHex + '\'' +
+				", ewkMacSignature='" + ewkMacSignature + '\'' +
+				'}';
+	}
 
 	@Override
 	public int describeContents() {
@@ -82,5 +92,6 @@ public class Keys implements Parcelable {
 		dest.writeString(ewkPinHex);
 		dest.writeString(ewkDataHex);
 		dest.writeString(ivDataHex);
+		dest.writeString(ewkMacSignature);
 	}
 }

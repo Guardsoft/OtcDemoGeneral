@@ -61,7 +61,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.culqi.MainCulqiActivity.REQUEST_INITIALIZE;
@@ -839,11 +841,22 @@ public class TradeResultActivity extends AppCompatActivity {
         request.setOrder(order);
         request.setCard(card);
 
+        // ------------------------------------  HEADERS -------------------------------------------
+
+        Map<String, String> headerMap = null;
+        try {
+            headerMap = UtilOtc.getSignatureRequest(request);
+        } catch (Exception e) {
+            Log.e(TAG, e.getLocalizedMessage(), e);
+        }
+
+        // ------------------------------------  HEADERS -------------------------------------------
+
         AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY);
         AndroidNetworking.post(DOMAIN + "api.authorization/v3/culqi/authorize")
-                .addHeaders("Content-Type", "application/json")
-                .addHeaders("Authorization", authorization)
-                .addApplicationJsonBody(request)
+                .setContentType("application/json; charset=utf-8")
+                .addHeaders(headerMap)
+                .addStringBody(UtilOtc.toJsonPretty(request))
                 .setTag("initialize")
                 .setPriority(Priority.HIGH)
                 .build()

@@ -10,6 +10,11 @@ import android.util.Log;
 import android.widget.Scroller;
 import android.widget.TextView;
 
+import com.culqi.signature.MacRetailUtil;
+import com.culqi.signature.RequestToSign;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.otc.model.request.authorize.AuthorizeRequest;
 import com.otc.model.response.InitializeResponse;
 import com.pax.app.IConvert;
 import com.pax.app.TradeApplication;
@@ -22,6 +27,7 @@ import com.pax.tradepaypw.device.Device;
 import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Map;
 
 public class UtilOtc extends Application {
 
@@ -47,6 +53,32 @@ public class UtilOtc extends Application {
             otcUtil = new UtilOtc();
         }
         return otcUtil;
+    }
+
+    public static Map<String, String> getSignatureRequest(AuthorizeRequest authorizeRequest) throws Exception {
+
+        String accessKey = String.format("%s-%s",
+                authorizeRequest.getMerchant().getMerchantId(),
+                authorizeRequest.getDevice().getTerminalId());
+
+        String host = "culqimpos.quiputech.com";
+        String path = "/api.authorization/v3/culqi/authorize";
+
+        String payload = toJsonPretty(authorizeRequest);
+
+        RequestToSign request = RequestToSign.builder()
+                .withAccessKey(accessKey)
+                .withHost(host)
+                .withMethod("POST")
+                .withPath(path)
+                .withRegion("global")
+                .withService("authentication")
+                .withPayload(payload)
+                .withQueryParams(null)
+                .build();
+
+
+        return MacRetailUtil.sign("", request);
     }
 
     public void dialogResult(Context context, String msg){
@@ -89,7 +121,8 @@ public class UtilOtc extends Application {
             serialNumber = null;
         }
 
-        return serialNumber;
+        //return serialNumber;
+        return TradeApplication.TERMINAL_CODE;
     }
 
     public static void writeKeysDataPin(String data, String pin) {
@@ -145,6 +178,49 @@ public class UtilOtc extends Application {
         //para desencriptar
         int slotTDK = 5;
         Device.writeTDK(TradeApplication.INDEX_TMK,slotTDK, bytesTPK);
+        Device.getKCV_TDK((byte)slotTDK);
+
+    }
+
+    public static void writeWorkKeys(String data, String pin, String signature) {
+
+        int TdkSlot = 10;
+        int TpkSlot = 10;
+        int TakSlot = 10;
+
+        byte[] bytesTdkData = TradeApplication
+                .getConvert()
+                .strToBcd(data, IConvert.EPaddingPosition.PADDING_LEFT);
+
+        Device.writeTDK2(TradeApplication.INDEX_TMK, TdkSlot, bytesTdkData);
+
+        //*****************************************************************************************
+
+        byte[] bytesTpkPin = TradeApplication
+                .getConvert()
+                .strToBcd(pin, IConvert.EPaddingPosition.PADDING_LEFT);
+
+        Device.writeTPK2(TradeApplication.INDEX_TMK, TpkSlot, bytesTpkPin);
+
+        //******************************************************************************************
+
+        byte[] bytesTakSignature = TradeApplication
+                .getConvert()
+                .strToBcd(signature, IConvert.EPaddingPosition.PADDING_LEFT);
+
+        Device.writeTAK(TradeApplication.INDEX_TMK, TakSlot, bytesTakSignature);
+
+        //******************************************************************************************
+
+        // usar para capturar el pin
+        Device.writeTPK2(TradeApplication.INDEX_TMK, TradeApplication.INDEX_TPK_PIN, bytesTpkPin);
+        Device.getKCV_TPK((byte)TradeApplication.INDEX_TPK_PIN);
+
+
+        //++++++++++++++++++++++++++
+        //para desencriptar
+        int slotTDK = 5;
+        Device.writeTDK(TradeApplication.INDEX_TMK,slotTDK, bytesTpkPin);
         Device.getKCV_TDK((byte)slotTDK);
 
     }
@@ -332,6 +408,16 @@ public class UtilOtc extends Application {
             return result;
         }
 
+    }
+
+    public static String toJson(Object value){
+        Gson gson = new Gson();
+        return gson.toJson(value);
+    }
+
+    public static String toJsonPretty(Object value){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(value);
     }
 
 }

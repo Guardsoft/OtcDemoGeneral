@@ -22,9 +22,11 @@ public class TradeApplication extends Application {
     public final static String APP_VERSION = "V1.00.03_20171027";
 
 
-    public static final int INDEX_TMK = 2;
+    public static final int INDEX_TMK = 1;
     public static final int INDEX_TDK = 1;
     public static final int INDEX_TDK_PIN = 5;
+
+    public static final String TERMINAL_CODE = "1350010000";
 
     public static final int INDEX_TPK_PIN = 2;
 

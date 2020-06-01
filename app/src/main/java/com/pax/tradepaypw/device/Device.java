@@ -16,6 +16,7 @@ import com.pax.dal.entity.ECryptOperate;
 import com.pax.dal.entity.ECryptOpt;
 import com.pax.dal.entity.EDUKPTPinMode;
 import com.pax.dal.entity.EPedKeyType;
+import com.pax.dal.entity.EPedMacMode;
 import com.pax.dal.entity.EPedType;
 import com.pax.dal.entity.EPinBlockMode;
 import com.pax.dal.exceptions.PedDevException;
@@ -321,6 +322,25 @@ public class Device {
         return false;
     }
 
+    public static boolean writeTAK(int tmkIndex, int takIndex, byte[] takValue) {
+        try {
+            TradeApplication.getDal()
+                    .getPed(EPedType.INTERNAL)
+                    .writeKey(
+                            EPedKeyType.TMK,
+                            (byte) tmkIndex,
+                            EPedKeyType.TAK,
+                            (byte) takIndex,
+                            takValue,
+                            ECheckMode.KCV_NONE,
+                            null);
+            return true;
+        } catch (PedDevException e) {
+            Log.w("writeTPK", e);
+        }
+        return false;
+    }
+
     public static byte[] getKCV_TPK(byte keyIndex) {
 
         IPed ped = TradeApplication.getDal().getPed(EPedType.INTERNAL);
@@ -494,6 +514,31 @@ public class Device {
         }
         return false;
     }
+
+
+    public static byte[] getMacRetail(int keyindexTak, byte[] value){
+
+        IPed ped = TradeApplication.getDal().getPed(EPedType.INTERNAL);
+        try {
+            byte[] bytesMode00 = ped.getMac((byte) keyindexTak, value, EPedMacMode.MODE_00);
+            Log.i("getMacRetail:MODE_00 = " + keyindexTak, TradeApplication.getConvert().bcdToStr(bytesMode00));
+
+            byte[] bytesMode01 = ped.getMac((byte) keyindexTak, value, EPedMacMode.MODE_01);
+            Log.i("getMacRetail:MODE_01 = " + keyindexTak, TradeApplication.getConvert().bcdToStr(bytesMode01));
+
+            byte[] bytesMode02 = ped.getMac((byte) keyindexTak, value, EPedMacMode.MODE_02);
+            Log.i("getMacRetail:MODE_02 = " + keyindexTak, TradeApplication.getConvert().bcdToStr(bytesMode02));
+
+            return bytesMode00;
+        } catch (PedDevException e) {
+            e.printStackTrace();
+            Log.e("getMacRetail:slot"+ keyindexTak, e.toString());
+        }
+        return null;
+    }
+
+
+
 
 
 }
