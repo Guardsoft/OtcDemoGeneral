@@ -3,7 +3,6 @@ package com.otc.ui.util;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -61,6 +60,8 @@ public class UtilOtc extends Application {
                 authorizeRequest.getMerchant().getMerchantId(),
                 authorizeRequest.getDevice().getTerminalId());
 
+        Log.i(TAG, "ACCESSKEY: " + accessKey);
+
         String host = "culqimpos.quiputech.com";
         String path = "/api.authorization/v3/culqi/authorize";
 
@@ -76,7 +77,6 @@ public class UtilOtc extends Application {
                 .withPayload(payload)
                 .withQueryParams(null)
                 .build();
-
 
         return MacRetailUtil.sign("", request);
     }
@@ -211,18 +211,15 @@ public class UtilOtc extends Application {
         Device.writeTAK(TradeApplication.INDEX_TMK, TakSlot, bytesTakSignature);
 
         //******************************************************************************************
-
         // usar para capturar el pin
         Device.writeTPK2(TradeApplication.INDEX_TMK, TradeApplication.INDEX_TPK_PIN, bytesTpkPin);
         Device.getKCV_TPK((byte)TradeApplication.INDEX_TPK_PIN);
-
 
         //++++++++++++++++++++++++++
         //para desencriptar
         int slotTDK = 5;
         Device.writeTDK(TradeApplication.INDEX_TMK,slotTDK, bytesTpkPin);
         Device.getKCV_TDK((byte)slotTDK);
-
     }
 
     public static String getTrack2(String track) {

@@ -529,7 +529,15 @@ public class Device {
             byte[] bytesMode02 = ped.getMac((byte) keyindexTak, value, EPedMacMode.MODE_02);
             Log.i("getMacRetail:MODE_02 = " + keyindexTak, TradeApplication.getConvert().bcdToStr(bytesMode02));
 
-            return bytesMode00;
+            //test
+            byte[] valueTest = TradeApplication.getConvert().strToBcd("46617269642047616d6172726120466c6f7265616e6f", IConvert.EPaddingPosition.PADDING_LEFT);
+
+            Log.i(TAG, " ** HEX = : " + TradeApplication.getConvert().toHexString(valueTest));
+
+            byte[] bytesTest = ped.getMac((byte) keyindexTak, valueTest, EPedMacMode.MODE_02);
+            Log.i("getMac TEST :MODE_02 = " + keyindexTak, TradeApplication.getConvert().bcdToStr(bytesTest));
+
+            return bytesMode02;
         } catch (PedDevException e) {
             e.printStackTrace();
             Log.e("getMacRetail:slot"+ keyindexTak, e.toString());

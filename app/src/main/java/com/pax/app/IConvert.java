@@ -41,6 +41,8 @@ public interface IConvert {
 
     boolean isByteArrayValueSame(byte[] paramArrayOfByte1, int paramInt1, byte[] paramArrayOfByte2, int paramInt2, int paramInt3);
 
+    String toHexString(byte[] data);
+
     enum EEndian {
         LITTLE_ENDIAN,
         BIG_ENDIAN,

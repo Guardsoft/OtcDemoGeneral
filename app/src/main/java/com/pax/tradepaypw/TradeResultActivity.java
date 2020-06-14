@@ -842,19 +842,17 @@ public class TradeResultActivity extends AppCompatActivity {
         request.setCard(card);
 
         // ------------------------------------  HEADERS -------------------------------------------
-
         Map<String, String> headerMap = null;
         try {
             headerMap = UtilOtc.getSignatureRequest(request);
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage(), e);
         }
-
         // ------------------------------------  HEADERS -------------------------------------------
 
         AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY);
         AndroidNetworking.post(DOMAIN + "api.authorization/v3/culqi/authorize")
-                .setContentType("application/json; charset=utf-8")
+                .setContentType("application/json;charset=utf-8")
                 .addHeaders(headerMap)
                 .addStringBody(UtilOtc.toJsonPretty(request))
                 .setTag("initialize")
@@ -872,7 +870,6 @@ public class TradeResultActivity extends AppCompatActivity {
                         tvCardNumber.setText(UtilOtc.getCardNumber(track2));
 
                         authorizeResponse = response;
-
 
                         PrinterManager manager = new PrinterManager();
                         manager.printDemo(TradeResultActivity.this, response, TENANT, track2);

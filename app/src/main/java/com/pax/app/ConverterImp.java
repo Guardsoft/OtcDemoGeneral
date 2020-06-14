@@ -14,6 +14,8 @@
  */
 package com.pax.app;
 
+import java.util.Locale;
+
 class ConverterImp implements IConvert {
     private static final char[] ARRAY_OF_CHAR = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
@@ -283,5 +285,22 @@ class ConverterImp implements IConvert {
         }
 
         return true;
+    }
+
+    @Override
+    public String toHexString(byte[] data) {
+        StringBuilder sb = new StringBuilder(data.length * 2);
+        for (int i = 0; i < data.length; i++) {
+            String hex = Integer.toHexString(data[i]);
+            if (hex.length() == 1) {
+                // Append leading zero.
+                sb.append("0");
+            } else if (hex.length() == 8) {
+                // Remove ff prefix from negative numbers.
+                hex = hex.substring(6);
+            }
+            sb.append(hex);
+        }
+        return sb.toString().toLowerCase(Locale.getDefault());
     }
 }

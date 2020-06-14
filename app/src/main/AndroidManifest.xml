@@ -18,8 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name="com.commerce.GaleryListActivity"></activity>
+
         <activity android:name="com.commerce.BasketActivity" />
+
         <activity
             android:name="com.commerce.CategoryActivity"
             android:launchMode="singleTask"
@@ -71,8 +74,6 @@
             android:name="com.culqi.MainCulqiActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
-
-
 
         </activity>
 

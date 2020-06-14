@@ -2,11 +2,9 @@ package com.culqi.signature;
 
 import android.util.Log;
 
-import com.pax.tradepaypw.device.Device;
+import com.pax.app.IConvert;
+import com.pax.app.TradeApplication;
 
-import org.apache.commons.codec.binary.Hex;
-
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +13,7 @@ public class MacRetailUtil {
     private static final String TAG = "MacRetailUtil";
 
     public static String signature(String macKey,
-                                   String xAmzDate, RequestToSign request) throws UnsupportedEncodingException, Exception {
+                                   String xAmzDate, RequestToSign request) throws Exception {
         MacRetailSignature macRetail = new MacRetailSignature(request);
         return signature(macRetail, macKey, xAmzDate);
     }
@@ -37,25 +35,29 @@ public class MacRetailUtil {
 //        return SignatureUtil.toHex(signature);
 //    }
 
-    private static String signature(MacRetailSignature macRetail, String macKey,  String xAmzDate) throws UnsupportedEncodingException, Exception {
+    private static String signature(MacRetailSignature macRetail, String macKey,  String xAmzDate) throws Exception {
+
         /* Task 1 - Create a Canonical Request */
         String canonicalURL = macRetail.prepareCanonicalRequest(xAmzDate);
 
         /* Task 2 - Create a String to Sign */
         String stringToSign = macRetail.prepareStringToSign(canonicalURL, xAmzDate);
 
-
         /* Task 3 - Calculate the Signature */
         //TODO: Reemplazar por la firma del dispositivo
-        return macRetail.macRetail(stringToSign);
+        String signature = macRetail.macRetail(stringToSign);
+
+        Log.i(TAG, "signature: " + signature);
+
+        return signature;
     }
 
-    public static Map<String, String> sign(String macKey, RequestToSign request) throws UnsupportedEncodingException, Exception {
+    public static Map<String, String> sign(String macKey, RequestToSign request) throws Exception {
         String xAmzDate = SignatureUtil.getTimeStamp();
         return sign(macKey, xAmzDate, request);
     }
 
-    public static Map<String, String> sign(String macKey, String xAmzDate, RequestToSign request) throws UnsupportedEncodingException, Exception {
+    public static Map<String, String> sign(String macKey, String xAmzDate, RequestToSign request) throws Exception {
         Map<String, String> map = new HashMap<>();
         MacRetailSignature macRetail = new MacRetailSignature(request);
 
@@ -93,10 +95,8 @@ public class MacRetailUtil {
             String signResult = signature(macKey, xAmzDate, request);
             return signature.equalsIgnoreCase(signResult);
         } catch (Exception ex) {
-
             Log.e(TAG, ex.getLocalizedMessage(), ex);
         }
-
         return false;
     }
     

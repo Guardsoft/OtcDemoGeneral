@@ -1,16 +1,18 @@
 package com.culqi.signature;
 
-import com.otc.ui.util.UtilOtc;
+import android.util.Log;
+
 import com.pax.app.IConvert;
 import com.pax.app.TradeApplication;
 import com.pax.tradepaypw.device.Device;
 
-
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Locale;
 
 public class MacRetailSignature extends Signature {
 
+    private static final String TAG = "MacRetailSignature";
 
     public MacRetailSignature(RequestToSign request) {
         super(request);
@@ -64,21 +66,19 @@ public class MacRetailSignature extends Signature {
 
         int indexKeyTak = 10;
 
-        String temp = "";
+        String hexa = null;
         try {
-
-            temp = toHex(stringToSign.getBytes("UTF-8"));
-
+            hexa = TradeApplication.getConvert().toHexString(stringToSign.getBytes("UTF-8"));
+            Log.i(TAG, "HEXA: " + stringToSign);
+            Log.i(TAG, "HEXA: " + hexa);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            Log.e(TAG, "macRetail: ", e);
         }
 
-        byte[] signature = TradeApplication.getConvert().strToBcd(temp, IConvert.EPaddingPosition.PADDING_LEFT);
+        byte[] signature = TradeApplication.getConvert().strToBcd(hexa, IConvert.EPaddingPosition.PADDING_LEFT);
+        String result = TradeApplication.getConvert().bcdToStr(Device.getMacRetail(indexKeyTak, signature));
 
-
-
-
-        return TradeApplication.getConvert().bcdToStr( Device.getMacRetail(indexKeyTak, signature) );
+        return result;
     }
 
     @Override
@@ -95,22 +95,5 @@ public class MacRetailSignature extends Signature {
         /* Task 2 - Create a String to Sign */
         return prepareStringToSign(canonicalURL, xAmzDate);
     }
-
-    public static String toHex(byte[] data) {
-        StringBuilder sb = new StringBuilder(data.length * 2);
-        for (int i = 0; i < data.length; i++) {
-            String hex = Integer.toHexString(data[i]);
-            if (hex.length() == 1) {
-                // Append leading zero.
-                sb.append("0");
-            } else if (hex.length() == 8) {
-                // Remove ff prefix from negative numbers.
-                hex = hex.substring(6);
-            }
-            sb.append(hex);
-        }
-        return sb.toString().toLowerCase(Locale.getDefault());
-    }
-
 
 }

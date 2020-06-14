@@ -249,6 +249,9 @@ public class BasketActivity extends AppCompatActivity {
 
     private void initialize(String authorization) {
 
+        boolean reloadKeys = false;
+
+
         String DOMAIN = "https://culqimpos.quiputech.com/";
 
         Header header = new Header();
@@ -261,8 +264,14 @@ public class BasketActivity extends AppCompatActivity {
 
         device.setSerialNumber(serialNumber);
 
-        //slot para pinblock
-        device.setReloadKeys(true);
+        reloadKeys = prefsPax.getBoolean("reloadkeys", true);
+        if (reloadKeys) {
+            //slot para pinblock
+            device.setReloadKeys(true);
+        }else{
+            device.setReloadKeys(false);
+        }
+
 
         InitializeRequest request = new InitializeRequest();
         request.setHeader(header);
@@ -279,6 +288,10 @@ public class BasketActivity extends AppCompatActivity {
                 .getAsObject(InitializeResponse.class, new ParsedRequestListener<InitializeResponse>() {
                     @Override
                     public void onResponse(InitializeResponse response) {
+
+                        SharedPreferences.Editor editor = prefsPax.edit();
+                        editor.putBoolean("reloadkeys", false);
+                        editor.apply();
 
                         layoutProgress.setVisibility(View.GONE);
 
