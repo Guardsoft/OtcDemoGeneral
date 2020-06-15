@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical|center"
-    android:background="@color/bbva_blue"
+    android:background="@color/izipay_pink1"
     android:fitsSystemWindows="true"
     android:gravity="center_horizontal"
     android:visibility="gone"

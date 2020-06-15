@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:gravity="center"
-            android:background="@color/culqi_green"
+            android:background="@color/izipay_pink1"
             android:orientation="vertical">
 
             <TextView

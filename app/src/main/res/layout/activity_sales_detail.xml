@@ -13,9 +13,8 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="?attr/colorPrimary"
+        android:background="@color/izipay_pink1"
         android:minHeight="?attr/actionBarSize"
-        android:backgroundTint="@color/bbva_blue"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="136dp"/>
 
@@ -30,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bbva_blue">
+            android:background="@color/izipay_pink1">
 
             <TextView
                 android:id="@+id/tv_sales_detail_amount"
@@ -134,7 +133,7 @@
                 android:text="Anular"
                 android:textSize="20sp"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/bbva_blue"
+                android:backgroundTint="@color/izipay_pink1"
                 android:layout_weight="5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
@@ -154,7 +153,7 @@
                 android:text="Firma"
                 android:textSize="20sp"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/bbva_blue"
+                android:backgroundTint="@color/izipay_pink1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

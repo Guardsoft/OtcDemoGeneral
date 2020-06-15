@@ -13,7 +13,7 @@
     <application
         android:name="com.pax.app.TradeApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_logo_retail_store"
+        android:icon="@drawable/izipay"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -28,11 +28,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
 
@@ -74,6 +69,12 @@
             android:name="com.culqi.MainCulqiActivity"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 

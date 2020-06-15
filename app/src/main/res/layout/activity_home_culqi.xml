@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bbva_blue"
+    android:background="@color/izipay_pink1"
     tools:context="com.culqi.HomeCulqiActivity">
 
     <LinearLayout
@@ -54,7 +54,7 @@
                 android:id="@+id/btn_cancellations"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/ic_cancellations" />
+                android:src="@drawable/ic_card_cancel" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,7 +77,7 @@
                 android:id="@+id/btn_queries"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/ic_queries" />
+                android:src="@drawable/ic_card_report" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +88,6 @@
                 android:textSize="25dp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 

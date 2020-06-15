@@ -62,6 +62,7 @@ public class MainCulqiActivity extends AppCompatActivity {
 
     //**** pax
     private long purchaseNumber = 0L;
+    private boolean reloadKeys = false;
     SharedPreferences prefsPax;
 
     public InitializeResponse initializeResponse;
@@ -76,7 +77,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         initData();
 
         tvStart.setOnClickListener(v -> {
-
             Intent intent = new Intent(this, HomeCulqiActivity.class);
             intent.putExtra(REQUEST_TENANT, TENANT);
             intent.putExtra(REQUEST_INITIALIZE, initializeResponse);
@@ -104,6 +104,7 @@ public class MainCulqiActivity extends AppCompatActivity {
         AndroidNetworking.initialize(getApplicationContext());
         prefsPax = getSharedPreferences("pax", Context.MODE_PRIVATE| Context.MODE_MULTI_PROCESS);
         purchaseNumber = prefsPax.getLong("purchase_number", time);
+        reloadKeys = prefsPax.getBoolean("reload_keys", true);
         purchaseNumber++;
 
         SharedPreferences.Editor editor = prefsPax.edit();
@@ -111,9 +112,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         editor.apply();
 
         UtilOtc.injectKeys();
-//        if (!UtilOtc.keyValidateTlkBoolean()) {
-//            UtilOtc.injectKeys();
-//        }
 
         accessToken();
 
@@ -188,7 +186,11 @@ public class MainCulqiActivity extends AppCompatActivity {
         device.setSerialNumber(serialNumber);
 
         //slot para pinblock
-        device.setReloadKeys(true);
+        if (reloadKeys) {
+            device.setReloadKeys(true);
+        }else{
+            device.setReloadKeys(false);
+        }
 
         InitializeRequest request = new InitializeRequest();
         request.setHeader(header);
@@ -211,6 +213,10 @@ public class MainCulqiActivity extends AppCompatActivity {
 
                         initializeResponse = response;
                         if (response.getKeys() != null) {
+
+                            SharedPreferences.Editor editor = prefsPax.edit();
+                            editor.putBoolean("reload_keys", false);
+                            editor.apply();
 
                             UtilOtc.writeWorkKeys(
                                     response.getKeys().getEwkDataHex(),

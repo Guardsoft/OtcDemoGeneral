@@ -13,10 +13,9 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="?attr/colorPrimary"
+        android:background="@color/izipay_pink1"
         android:minHeight="?attr/actionBarSize"
         android:layout_below="@+id/layout_progress"
-        android:backgroundTint="@color/bbva_blue"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="136dp"/>
 
@@ -25,16 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
         <ListView
             android:id="@+id/lv_sales_today"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-
     </LinearLayout>
-
 
 </RelativeLayout>
 

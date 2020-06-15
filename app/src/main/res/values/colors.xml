@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">@color/izipay_pink1</color>
     <color name="colorPrimaryDark">#4080ca</color>
     <color name="colorAccent">#ac11df</color>
     <!--谈红色  用于首页调整点击变色-->
