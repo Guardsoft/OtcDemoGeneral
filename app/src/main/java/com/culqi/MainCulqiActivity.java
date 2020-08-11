@@ -51,7 +51,6 @@ public class MainCulqiActivity extends AppCompatActivity {
     public static final String REQUEST_INITIALIZE = "initialize";
     public static final String REQUEST_TENANT = "tenant";
 
-
     private ImageView ivLogo;
     private ImageView ivLogo2;
     private ImageView ivLogoLoading;
@@ -111,9 +110,6 @@ public class MainCulqiActivity extends AppCompatActivity {
         editor.apply();
 
         UtilOtc.injectKeys();
-//        if (!UtilOtc.keyValidateTlkBoolean()) {
-//            UtilOtc.injectKeys();
-//        }
 
         accessToken();
 

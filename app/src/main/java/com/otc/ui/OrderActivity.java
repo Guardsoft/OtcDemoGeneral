@@ -60,8 +60,6 @@ public class OrderActivity extends AppCompatActivity {
     Button btnOrder2Plus;
     @BindView(R.id.btn_pagar)
     Button btnPagar;
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
     @BindView(R.id.layout_progress)
     LinearLayout layoutProgress;
     @BindView(R.id.btn_order3_negative)

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.culqi.MainCulqiActivity">
 
-    <include layout="@layout/view_izipay_loading"/>
+    <include layout="@layout/view_loading"/>
 
     <RelativeLayout
         android:background="@color/white"

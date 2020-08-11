@@ -74,7 +74,9 @@ import static com.culqi.SalesTodayActivity.REQUEST_TRANSACTION;
 import static com.pax.tradepaypw.utils.Utils.bcd2Str;
 
 public class TradeResultActivity extends AppCompatActivity {
+
     private static final String TAG = "TradeResultActivity";
+
     public static final String REQUEST_AUTHORIZE = "authorize";
     public static final String REQUEST_PURCHASE_NUMBER = "purchaseNumber";
     private TextView tvAmount;
