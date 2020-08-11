@@ -1,5 +1,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">SIGNATURE Demo</string>
+    <string name="app_name">OTC Demo</string>
     <string name="hello_world">Hello world!</string>
 
     <string name="dialog_delete">&lt;</string>

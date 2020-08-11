@@ -29,7 +29,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
     defaultConfig {
-        applicationId "com.pax.tradepaypw.app.TradeApplication.signature"
+        applicationId "com.pax.tradepaypw.app.TradeApplication.otc"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 2

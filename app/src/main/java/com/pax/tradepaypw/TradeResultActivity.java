@@ -722,7 +722,6 @@ public class TradeResultActivity extends AppCompatActivity {
             intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         }
-
         return super.onKeyDown(keyCode, event);
     }
 

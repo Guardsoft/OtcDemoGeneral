@@ -9,7 +9,7 @@
     <include layout="@layout/view_izipay_loading"/>
 
     <RelativeLayout
-        android:background="@color/bbva_blue"
+        android:background="@color/white"
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,7 +23,7 @@
 
             <ImageView
                 android:id="@+id/iv_logo"
-                android:src="@drawable/ic_logo_bbva3"
+                android:src="@drawable/ic_logo_otc"
                 android:layout_marginTop="50dp"
                 android:layout_width="200dp"
                 android:layout_height="150dp"/>
@@ -41,7 +41,7 @@
                 android:textSize="25dp"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/culqi_blue"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
